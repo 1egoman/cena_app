@@ -32,7 +32,7 @@ module.exports = (app) ->
   LocalStrategy = require('passport-local').Strategy
   passport.use new LocalStrategy((username, password, done) ->
     User.findOne username: username, (err, user) ->
-      user.validPassword password, (valid) ->
+      user.validPassword username, password, (valid) ->
         if err
           done err
 
