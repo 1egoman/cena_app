@@ -58,9 +58,5 @@ module.exports = (app) ->
     done null, user.id
 
   passport.deserializeUser (id, done) ->
-    # User.findById id, (err, user) ->
-    #   done err, user
-    done null,
-      username: "123"
-      password: "456"
-      id: 0
+    User.findById id, (err, user) ->
+      done err, user
