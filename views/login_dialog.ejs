@@ -1,3 +1,6 @@
+<span style="color: red;">
+  <%= flash_msg.length && flash_msg[flash_msg.length-1].message || "" %>
+</span>
 <form action="/auth/user" method="post">
     <div>
         <label>Username:</label>

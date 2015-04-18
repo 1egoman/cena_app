@@ -13,7 +13,7 @@ module.exports = (app) ->
 
   # login view
   app.get "/login", (req, res) ->
-    res.render "login_dialog"
+    res.render "login_dialog", flash_msg: res.locals.flash
 
   # login post route
   app.post '/auth/user', passport.authenticate('local',

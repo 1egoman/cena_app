@@ -32,21 +32,25 @@ module.exports = (app) ->
   LocalStrategy = require('passport-local').Strategy
   passport.use new LocalStrategy((username, password, done) ->
     User.findOne username: username, (err, user) ->
-      user.validPassword username, password, (valid) ->
-        if err
-          done err
+      if err
+        done err
 
-        # check for valid username
-        else if not user
-          done null, false, message: 'Incorrect username.'
+      # check for valid username
+      else if not user
+        done null, false, message: 'Incorrect username.'
 
-        # check for valid password
-        else if not valid
-          done null, false, message: 'Incorrect password.'
+      else
+        user.validPassword username, password, (valid) ->
+          if err
+            done err
 
-        # otherwise, success!
-        else
-          done null, user
+          # check for valid password
+          else if not valid
+            done null, false, message: 'Incorrect password.'
+
+          # otherwise, success!
+          else
+            done null, user
     )
 
   # user serialization and deserialization
