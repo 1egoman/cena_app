@@ -1,0 +1,18 @@
+{
+  "name": "cena_auth",
+  "version": "0.0.0",
+  "authors": [
+    "1egoman <rsg1egoman@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

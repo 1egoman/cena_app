@@ -25,7 +25,7 @@ app.use require("body-parser").urlencoded(extended: true)
 app.use flash()
 
 # auto compile and serve sass stylesheets
-app.use require("sass-middleware") src: "public"
+app.use require("sass-middleware") src: "public", quiet: true
 app.use require("express-static") path.join(__dirname, '../public')
 
 require("./auth_setup") app

@@ -1,21 +1,31 @@
 <% include nav.ejs %>
 
 <!-- flash text -->
-<div class="alert alert-danger alert-dismissible fade in" >
-  <%= flash_msg.length && flash_msg[flash_msg.length-1].message || "" %>
-</div>
+<% if (flash_msg && flash_msg.length) { %>
+  <div class="alert alert-danger alert-dismissible fade in" >
+    <%= flash_msg.length && flash_msg[flash_msg.length-1].message || "" %>
+  </div>
+<% } %>
 
 <!-- login form -->
-<form action="/auth/user" method="post">
-  <div class="form-group">
-    <label>Username:</label>
-    <input type="text" name="username" class="form-control" />
-  </div>
-  <div class="form-group">
-    <label>Password:</label>
-    <input type="password" name="password" class="form-control" />
-  </div>
-  <div class="form-group">
-    <input type="submit" value="Log In" class="btn btn-primary" />
-  </div>
-</form>
+<div class="login-form">
+
+  <img class="hero" src="/img/logo.png" />
+
+  <form action="/auth/user" method="post">
+    <div class="form-group">
+      <label>Username:</label>
+      <input type="text" name="username" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" name="password" class="form-control" />
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Log In" class="btn btn-primary" />
+    </div>
+  </form>
+
+</div>
+
+<% include footer.ejs %>

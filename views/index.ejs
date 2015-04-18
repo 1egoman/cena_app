@@ -1,11 +1,7 @@
 <% include nav.ejs %>
 
-<% if (user) { %>
-  <a href="/logout">Logout</a>
-  <strong>User data:</strong>
-  <pre>
-    <%= user %>
-  </pre>
-<% } else { %>
-  <a href="/login">Login</a>
-<% } %>
+<pre>
+  <%= user %>
+</pre>
+
+<% include footer.ejs %>
