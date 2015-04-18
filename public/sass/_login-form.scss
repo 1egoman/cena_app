@@ -1,0 +1,53 @@
+
+.login-form {
+  @extend .container;
+  width: 500px;
+
+  // center the logo above the login form
+  img.hero {
+    width: 64px;
+    margin: 0px auto 20px auto;
+    display: block;
+  }
+
+  // all inputs, including both boxes
+  // and the submit button
+  input {
+    height: 42px;
+  }
+
+  // the text input boxes
+  input[type=text], input[type=password] {
+    @extend .form-control;
+    border-radius: 0px;
+    background: transparent;
+    border: 0px;
+    outline: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: 1px solid $gray-dark;
+
+    &:focus {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      border-color: $dark-cena-green;
+    }
+  }
+
+  // login button
+  input[type=submit] {
+    @extend .btn;
+    @include flat();
+    background: $mid-cena-green;
+
+    &, &:hover {
+      color: white;
+    }
+  }
+
+}
+
+// flash alert box
+.alert {
+  @include flat("alert");
+}

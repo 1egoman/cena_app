@@ -2,8 +2,9 @@
 @import "bootstrap";
 @import "navbar";
 @import "panel";
+@import "login-form";
 
 body {
-  background: #eeeeee;
+  background: $gray-lighter;
   font-weight: 300;
 }
