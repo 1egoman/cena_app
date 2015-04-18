@@ -11,17 +11,22 @@ app = (require "express")()
 app.set "view engine", "ejs"
 passport = require "passport"
 flash = require "flash"
+path = require "path"
 
 # connect to database
 require("./db") "mongodb://cena:cena@ds061611.mongolab.com:61611/cena_auth"
 
-# passport middleware
+# middleware
 app.use require("express-session")
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: false
 app.use require("body-parser").urlencoded(extended: true)
 app.use flash()
+
+# auto compile and serve sass stylesheets
+app.use require("sass-middleware") src: "public"
+app.use require("express-static") path.join(__dirname, '../public')
 
 require("./auth_setup") app
 require("./auth_routes") app
