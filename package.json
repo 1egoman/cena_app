@@ -1,7 +1,7 @@
 {
   "name": "cena-auth",
   "version": "0.0.0",
-  "main": "lib/cena-auth.js",
+  "main": "src/index.coffee",
   "description": "cena authentication",
   "homepage": "https://github.com/1egoman/cena-auth",
   "bugs": "https://github.com/1egoman/cena-auth/issues",
@@ -29,5 +29,13 @@
     "chai": "~1.7.2",
     "mocha": "~1.12.1",
     "sinon": "~1.7.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "ejs": "^2.3.1",
+    "express": "^4.12.3",
+    "express-session": "^1.11.1",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0"
   }
 }
