@@ -30,7 +30,6 @@ app.get "/auth", app.protected(), (req, res) ->
   res.send "yay"
 
 app.get '/', (req, res) ->
-  console.log req.flash("error")
   res.render "index", user: JSON.stringify req.user
 
 
