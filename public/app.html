@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title>Cena</title>
+    <link rel="stylesheet" href="/sass/index.css" />
+  </head>
+  <body ng-app="Cena">
+
+    <!-- main navbar -->
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href=".">
+            <img src="/img/logo.png" />
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+
+            <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li> -->
+
+            <li class="dropdown">
+              <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Grocery Lists <span class="caret"></span>
+              </a>
+
+              <!-- display all grocery lists -->
+              <ul class="dropdown-menu" role="menu" ng-controller="ListController">
+                <li ng-repeat="list in getListsByTag(lists, 'grocery')">
+                  <a href="#/lists/{{list.name}}">{{list.name}}</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#/addlist/grocery">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    New Grocery List
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- display all recipe lists -->
+            <li class="dropdown">
+              <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Recipies <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu" ng-controller="ListController">
+                <li ng-repeat="list in getListsByTag(lists, 'recipe')">
+                  <a href="#/lists/{{list.name}}">{{list.name}}</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#/addlist/recipe">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    New Recipe
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- display other lists -->
+            <li class="dropdown">
+              <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Others <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu" ng-controller="ListController">
+                <li ng-repeat="list in getListsByTag(lists, null)">
+                  <a href="#/lists/{{list.name}}">{{list.name}}</a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- foodstuffs -->
+            <li>
+              <a href="#/foodstuffs">Foodstuffs</a>
+            </li>
+
+          </ul>
+
+          <!-- readme -->
+          <ul class="nav navbar-nav pull-right">
+            <li>
+              <a href="#/readme">Readme</a>
+            </li>
+          </ul>
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- display a list -->
+    <div class="container">
+      <div ng-view>
+    </div>
+
+    <!-- javascript -->
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/js/libs/angular.min.js"></script>
+    <script src="/js/libs/angular-route.min.js"></script>
+    <script src="/js/libs/underscore.min.js"></script>
+    <script src="/js/libs/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="/js/app.js"></script>
+
+  </body>
+</html>

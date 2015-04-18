@@ -37,6 +37,8 @@ app.get "/auth", app.protected(), (req, res) ->
 app.get '/', (req, res) ->
   res.render "index", user: req.user
 
+app.get /\/account\/(.*)/gi, (req, res) ->
+  res.render "main_app"
 
 # error handling middleware
 app.use (err, req, res, next) ->

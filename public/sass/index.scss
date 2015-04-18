@@ -20,6 +20,8 @@ $dark-cena-red: adjust_hue($dark-cena-blue, 128);
 @import "panel";
 @import "login-form";
 
+@import "app";
+
 body {
   background: $gray-lighter;
   font-weight: 300;
