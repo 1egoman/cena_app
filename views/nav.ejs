@@ -30,7 +30,10 @@
           <ul class="nav navbar-nav pull-right">
             <li>
               <% if (typeof user === 'object' && user) { %>
-                <a href="/logout">Logout</a>
+                <a href="/logout">
+                  Logout
+                  <%= user.username %>
+                </a>
               <% } else { %>
                 <a href="/login">Login</a>
               <% } %>

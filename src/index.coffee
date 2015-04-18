@@ -35,7 +35,7 @@ app.get "/auth", app.protected(), (req, res) ->
   res.send "yay"
 
 app.get '/', (req, res) ->
-  res.render "index", user: JSON.stringify req.user
+  res.render "index", user: req.user
 
 
 # error handling middleware
