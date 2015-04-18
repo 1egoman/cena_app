@@ -24,3 +24,7 @@ body {
   background: $gray-lighter;
   font-weight: 300;
 }
+
+pre, code {
+  @include flat("color", "left");
+}
