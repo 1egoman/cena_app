@@ -18,14 +18,24 @@
     ng-repeat="l in DispLists"
     ng-show="matchesSearchString(l, listSearchString)"
   >
-    <div class="panel-heading" tooltip-placement="left" tooltip="Tags: {{l.tags.join(', ')}}">
-      {{l.name}} <small>{{l.desc}}</small>
+    <div class="panel-heading">
+      {{l.name}}
+      <small>{{l.desc}}</small>
+      <small class="muted">{{l.tags.join(', ')}}</small>
 
       <!-- delete button -->
       <button
         class="btn btn-danger btn-xs pull-right"
         ng-click="delList(l)"
         >Delete
+      </button>
+
+      <!-- aceess button -->
+      <button
+        class="btn btn-primary btn-xs pull-right"
+        style="margin-right: 6px;"
+        ng-click=""
+        >Access...
       </button>
     </div>
 
