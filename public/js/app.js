@@ -52,6 +52,7 @@ app.filter('reverse', function() {
 
 app.controller("ListController", function($scope, $routeParams, ListService, FoodStuffService, $rootScope, $location) {
   var root = $scope;
+  root.isData = false;
 
   // place to store incoming list data
   root.newList = {
@@ -64,6 +65,7 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
 
   ListService.get(function(all) {
     root.lists = all;
+    root.isData = true;
 
     // get lists to display
     root.DispLists = _.filter(root.lists, function(list) {
@@ -368,6 +370,7 @@ app.factory("ListService", function($http) {
 
 app.controller("FsController", function($scope, $routeParams, FoodStuffService, $rootScope, $modal) {
   var root = $scope;
+  root.isData = false;
 
   // place to store incoming list data
   root.newFs = {};
@@ -377,6 +380,7 @@ app.controller("FsController", function($scope, $routeParams, FoodStuffService, 
 
   FoodStuffService.get(function(all) {
     root.foodstuffs = all;
+    root.isData = true;
   });
 
   // add new list

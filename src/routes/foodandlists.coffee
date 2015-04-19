@@ -7,6 +7,7 @@ createCRUD = (app, Model, name) ->
   # plural form
   pl = name + 's'
 
+  # auth middleware to make sure a user is logged in
   makeSureLoggedIn = (req, res, next) ->
     if req.user
       next()
@@ -28,7 +29,7 @@ createCRUD = (app, Model, name) ->
     return
 
   # add new item
-  app.post '/' + pl, (req, res) ->
+  app.post '/' + pl, makeSureLoggedIn, (req, res) ->
     data = req.body
     data.users = [req.user.username]
     n = new Model data
@@ -41,8 +42,11 @@ createCRUD = (app, Model, name) ->
     return
 
   # delete item
-  app.delete '/' + pl + '/:name', (req, res) ->
-    Model.remove { name: req.params.name }, (err) ->
+  app.delete '/' + pl + '/:name', makeSureLoggedIn, (req, res) ->
+    Model.remove
+      name: req.params.name
+      users: req.user.username
+    , (err) ->
       if err
         res.send err: err.toString()
       else
@@ -51,8 +55,11 @@ createCRUD = (app, Model, name) ->
     return
 
   # update item
-  app.put '/' + pl + '/:name', (req, res) ->
-    Model.update { name: req.params.name }, req.body, {}, (err, num, raw) ->
+  app.put '/' + pl + '/:name', makeSureLoggedIn, (req, res) ->
+    Model.update
+      name: req.params.name
+      users: req.user.username
+    , req.body, {}, (err, num, raw) ->
       if err
         res.send err: err.toString()
       else
