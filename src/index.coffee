@@ -13,15 +13,21 @@ passport = require "passport"
 flash = require "flash"
 path = require "path"
 bodyParser = require "body-parser"
+expressSession = require "express-session"
+RedisStore = require('connect-redis')(expressSession)
 
 # connect to database
 require("./db") "mongodb://cena:cena@ds061611.mongolab.com:61611/cena_auth"
 
 # middleware
-app.use require("express-session")
+app.use expressSession
   secret: 'keyboard cat',
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new RedisStore
+    host: "greeneye.redistogo.com"
+    port: 10449
+    pass: "40b1b3e4e5a6ddd492e33905b1c67d34"
 app.use bodyParser.json()
 app.use flash()
 
