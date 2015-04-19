@@ -20,7 +20,7 @@ module.exports = (app) ->
   app.post '/auth/user',
     bodyParser.urlencoded(extended: true),
     passport.authenticate 'local',
-      successRedirect: '/'
+      successRedirect: '/account'
       failureRedirect: '/login'
       failureFlash: true
 

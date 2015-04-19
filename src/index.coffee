@@ -43,7 +43,16 @@ app.get '/', (req, res) ->
   res.render "index", user: req.user
 
 # main app route
-app.get /\/account\/(.+)/gi, (req, res) ->
+app.get "/account", (req, res) ->
+  if req.user
+    res.redirect "/account/#{req.user.username}"
+  else
+    # not authorized
+    res.redirect "/#"
+
+# go to a user's lists
+app.get /\/account\/(.+)/i, (req, res) ->
+
   if req.user
     res.render "main_app", user: req.user
   else
