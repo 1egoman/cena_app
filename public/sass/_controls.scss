@@ -25,3 +25,7 @@
     border-color: $dark-cena-green;
   }
 }
+
+.modal .modal-content {
+  @include flat("modal", "left");
+}

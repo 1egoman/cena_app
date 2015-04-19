@@ -239,6 +239,11 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
     ListService.update(list);
   };
 
+  root.updateUsersModal = function(list) {
+    ListService.update(list);
+    $('.accessModal').modal('hide');
+  }
+
   // get items for typeahead
   root.getTypeahead = function(list) {
     return _.union(root.foodstuffs,
@@ -301,6 +306,19 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
     root.newList.pretags = root.newList.pretags.trim()
     $("input#list-tags").focus();
   };
+
+  // grant a new user access to the specified list
+  root.addUserToList = function(l, user) {
+    root.lists[l].users.push(user);
+    console.log("ADD", root.lists[l].users, l)
+  }
+
+  // remove a user's access to the specified list
+  root.removeUserFromList = function(l, user) {
+    console.log(root.lists[l].users, l)
+    root.lists[l].users = _.without(root.lists[l].users, user);
+    console.log(root.lists[l].users)
+  }
 
   // update all list instances
   $rootScope.$on("listUpdate", function(status, data) {

@@ -30,13 +30,62 @@
         >Delete
       </button>
 
-      <!-- aceess button -->
+      <!-- access button -->
       <button
         class="btn btn-primary btn-xs pull-right"
         style="margin-right: 6px;"
-        ng-click=""
+        data-toggle="modal"
+        data-target="#accessModal-{{l.name.split(' ').join('-')}}"
         >Access...
       </button>
+
+      <!-- access modal -->
+      <div class="modal fade accessModal" id="accessModal-{{l.name.split(' ').join('-')}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Who can access "{{l.name}}"?</h4>
+            </div>
+
+            <div class="modal-body">
+
+              <!-- user list -->
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="u in l.users">
+                  {{u}}
+
+                  <button
+                    class="btn btn-danger btn-xs pull-right"
+                    ng-click="removeUserFromList($parent.$index, u);"
+                    ng-show="l.users.length > 1"
+                    >Delete
+                  </button>
+                </li>
+              </ul>
+
+              <!-- add another user -->
+              <input
+                type="text"
+                placeholder="Type a username."
+                class="form-control"
+                ng-model="newUser"
+               />
+              <br/>
+              <button
+                class="btn btn-primary"
+                ng-click="addUserToList($index, newUser); newUser='';"
+                >Add
+              </button>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" ng-click="updateUsersModal(l)">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="panel-body row">
