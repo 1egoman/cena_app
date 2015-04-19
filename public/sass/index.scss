@@ -18,7 +18,10 @@ $dark-cena-red: adjust_hue($dark-cena-blue, 128);
 @import "flat";
 @import "navbar";
 @import "panel";
+
+@import "controls";
 @import "login-form";
+@import "app";
 
 body {
   background: $gray-lighter;

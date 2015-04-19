@@ -18,20 +18,7 @@
 
   // the text input boxes
   input[type=text], input[type=password] {
-    @extend .form-control;
-    border-radius: 0px;
-    background: transparent;
-    border: 0px;
-    outline: 0px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border-bottom: 1px solid $gray-dark;
-
-    &:focus {
-      -webkit-box-shadow: none;
-      box-shadow: none;
-      border-color: $dark-cena-green;
-    }
+    @extend .line-box;
   }
 
   // login button

@@ -3,15 +3,15 @@
   "version": "0.0.0",
   "main": "src/index.coffee",
   "description": "cena authentication",
-  "homepage": "https://github.com/1egoman/cena-auth",
-  "bugs": "https://github.com/1egoman/cena-auth/issues",
+  "homepage": "https://github.com/1egoman/cena_app",
+  "bugs": "https://github.com/1egoman/cena_app/issues",
   "author": {
     "name": "Ryan Gaus",
     "email": "rsg1egomaN@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/1egoman/cena-auth"
+    "url": "https://github.com/1egoman/cena_app"
   },
   "licenses": [
     {
@@ -33,10 +33,11 @@
   "dependencies": {
     "bcrypt": "^0.8.2",
     "body-parser": "^1.12.3",
+    "connect-redis": "^2.2.0",
     "ejs": "^2.3.1",
     "express": "^4.12.3",
-    "express-static": "^1.0.3",
     "express-session": "^1.11.1",
+    "express-static": "^1.0.3",
     "flash": "^1.1.0",
     "mongoose": "^4.0.1",
     "passport": "^0.2.1",

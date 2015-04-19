@@ -1,6 +1,6 @@
 ###
  * cena_auth
- * https://github.com/1egoman/cena-auth
+ * https://github.com/1egoman/cena_app
  *
  * Copyright (c) 2015 Ryan Gaus
  * Licensed under the MIT license.
@@ -12,24 +12,35 @@ app.set "view engine", "ejs"
 passport = require "passport"
 flash = require "flash"
 path = require "path"
+bodyParser = require "body-parser"
+expressSession = require "express-session"
+RedisStore = require('connect-redis')(expressSession)
 
 # connect to database
 require("./db") "mongodb://cena:cena@ds061611.mongolab.com:61611/cena_auth"
 
 # middleware
-app.use require("express-session")
+app.use expressSession
   secret: 'keyboard cat',
   resave: true,
-  saveUninitialized: false
-app.use require("body-parser").urlencoded(extended: true)
+  saveUninitialized: false,
+  store: new RedisStore
+    host: "greeneye.redistogo.com"
+    port: 10449
+    pass: "40b1b3e4e5a6ddd492e33905b1c67d34"
+app.use bodyParser.json()
 app.use flash()
 
 # auto compile and serve sass stylesheets
 app.use require("sass-middleware") src: "public", quiet: true
 app.use require("express-static") path.join(__dirname, '../public')
 
+# set up authentication service
 require("./auth_setup") app
-require("./auth_routes") app
+
+# set up main app routes
+require("./routes/foodandlists") app
+require("./routes/auth") app
 
 app.get "/auth", app.protected(), (req, res) ->
   res.send "yay"
@@ -37,6 +48,22 @@ app.get "/auth", app.protected(), (req, res) ->
 app.get '/', (req, res) ->
   res.render "index", user: req.user
 
+# main app route
+app.get "/account", (req, res) ->
+  if req.user
+    res.redirect "/account/#{req.user.username}"
+  else
+    # not authorized
+    res.redirect "/#"
+
+# go to a user's lists
+app.get /\/account\/(.+)/i, (req, res) ->
+
+  if req.user
+    res.render "main_app", user: req.user
+  else
+    # not authorized
+    res.redirect "/#"
 
 # error handling middleware
 app.use (err, req, res, next) ->
