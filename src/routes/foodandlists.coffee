@@ -55,20 +55,29 @@ createCRUD = (app, Model, name) ->
     return
 
   # update item
-  app.put '/' + pl + '/:name', makeSureLoggedIn, (req, res) ->
-    Model.update
-      name: req.params.name
-      users: req.user.username
-    , req.body, {}, (err, num, raw) ->
-      if err
-        res.send err: err.toString()
-      else
-        res.send
-          status: 'ok'
-          num: num
-      return
-    return
-  return
+  app.put '/' + pl + '/:name', makeSureLoggedIn, (req, res, next) ->
+
+    # make sure a user hasn't removed their own
+    # permisssion to view the list, or remove the "first owner" of the list
+    if (
+      req.body and
+      req.user.username in req.body.users and
+      req.body.users.indexOf(req.user.username) isnt 0
+    )
+      Model.update
+        name: req.params.name
+        users: req.user.username
+      , req.body, {}, (err, num, raw) ->
+        if err
+          res.send err: err.toString()
+        else
+          res.send
+            status: 'ok'
+            num: num
+    else
+      next
+        error: "User cannot remove access to their own list, or remove the primary owner of the list."
+        status: 403
 
 module.exports = (app) ->
   # create CRUD resource for list

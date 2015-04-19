@@ -315,9 +315,7 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
 
   // remove a user's access to the specified list
   root.removeUserFromList = function(l, user) {
-    console.log(root.lists[l].users, l)
     root.lists[l].users = _.without(root.lists[l].users, user);
-    console.log(root.lists[l].users)
   }
 
   // update all list instances
