@@ -12,6 +12,7 @@ app.set "view engine", "ejs"
 passport = require "passport"
 flash = require "flash"
 path = require "path"
+bodyParser = require "body-parser"
 
 # connect to database
 require("./db") "mongodb://cena:cena@ds061611.mongolab.com:61611/cena_auth"
@@ -21,15 +22,19 @@ app.use require("express-session")
   secret: 'keyboard cat',
   resave: true,
   saveUninitialized: false
-app.use require("body-parser").urlencoded(extended: true)
+app.use bodyParser.json()
 app.use flash()
 
 # auto compile and serve sass stylesheets
 app.use require("sass-middleware") src: "public", quiet: true
 app.use require("express-static") path.join(__dirname, '../public')
 
+# set up authentication service and routes
 require("./auth_setup") app
 require("./auth_routes") app
+
+# set up main app routes
+require("./routes/foodandlists") app
 
 app.get "/auth", app.protected(), (req, res) ->
   res.send "yay"
@@ -37,8 +42,13 @@ app.get "/auth", app.protected(), (req, res) ->
 app.get '/', (req, res) ->
   res.render "index", user: req.user
 
-app.get /\/account\/(.*)/gi, (req, res) ->
-  res.render "main_app"
+# main app route
+app.get /\/account\/(.+)/gi, (req, res) ->
+  if req.user
+    res.render "main_app", user: req.user
+  else
+    # not authorized
+    res.redirect "/#"
 
 # error handling middleware
 app.use (err, req, res, next) ->

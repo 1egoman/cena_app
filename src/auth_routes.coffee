@@ -8,6 +8,7 @@
 'use strict';
 
 passport = require "passport"
+bodyParser = require "body-parser"
 
 module.exports = (app) ->
 
@@ -16,11 +17,12 @@ module.exports = (app) ->
     res.render "login_dialog", flash_msg: res.locals.flash
 
   # login post route
-  app.post '/auth/user', passport.authenticate('local',
-    successRedirect: '/'
-    failureRedirect: '/login'
-    failureFlash: true
-  )
+  app.post '/auth/user',
+    bodyParser.urlencoded(extended: true),
+    passport.authenticate 'local',
+      successRedirect: '/'
+      failureRedirect: '/login'
+      failureFlash: true
 
   # logout route
   app.get '/logout', (req, res) ->
