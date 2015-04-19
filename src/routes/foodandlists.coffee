@@ -61,8 +61,7 @@ createCRUD = (app, Model, name) ->
     # permisssion to view the list, or remove the "first owner" of the list
     if (
       req.body and
-      req.user.username in req.body.users and
-      req.body.users.indexOf(req.user.username) isnt 0
+      req.user.username in req.body.users
     )
       Model.update
         name: req.params.name
