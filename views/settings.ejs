@@ -1,0 +1,85 @@
+<% include nav.ejs %>
+
+<div class="panel">
+  <div class="panel-body">
+    <h1>Settings</h1>
+
+    <!-- tags -->
+    <section class="col-md-5 col-sm-12 col-xs-12">
+      <h2>Tags</h2>
+
+      <div class="form-group">
+
+        <!-- tag list -->
+        <ul class="all-tags list-unstyled">
+          <% user.tags.forEach(function(t) {%>
+            <li class="tag <%= t.split(' ').join('-') %>">
+              <h3>
+                <%= t %>&nbsp;
+                <span class="text-danger x" style="cursor: pointer;">x</span>
+              </h3>
+            </li>
+          <% }); %>
+
+          <!-- new tag box -->
+          <li style="margin-top: 10px;">
+            <input type="text" placeholder="New Tag" id="newTag" class="line-box" />
+            <small class="muted">
+              <br/>
+              Type a new tag above, and then press enter. Tags should ideally
+              be dasherized <code>like-this</code>.
+            </small>
+          </li>
+
+        </ul>
+      </div>
+
+    </section>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+  // add a new tag
+  $("#newTag").on("keydown", function(e) {
+    if (e.keyCode === 13 || e.keyCode === 32) {
+      name = $(this).val().trim();
+      // new tag
+      $.ajax({
+        method: "post",
+        url: "/settings/tag",
+        data: {name: name}
+      }).done(function(data) {
+        $(".all-tags #newTag")
+          .parent()
+          .before(
+            "<li class='tag "+name.split(' ').join('-')+"'><h3>"+name+"&nbsp;\n<span class='text-danger x' style='cursor: pointer;'>x</span></h3></li>"
+          );
+        $("#newTag").val("");
+      });
+    }
+  });
+
+  // remove tag
+  $("li.tag .x").on("click", function(e) {
+    console.log(1)
+    name = $(this).parent().parent().attr("class").substr(4);
+    console.log(name)
+    $.ajax({
+      method: "delete",
+      url: "/settings/tag",
+      data: {name: name}
+    }).done(function(data) {
+      $(".tag."+name).remove();
+    });
+  });
+
+
+});
+</script>
+
+<% include footer.ejs %>

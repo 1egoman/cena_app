@@ -60,3 +60,13 @@ module.exports = (app) ->
   passport.deserializeUser (id, done) ->
     User.findById id, (err, user) ->
       done err, user
+
+
+  # settings
+  app.get "/settings", (req, res) ->
+    User.findOne username: req.user.username, (err, user) ->
+      if req.user
+        res.render "settings", user: user
+      else
+        # not authorized
+        res.redirect "/#"

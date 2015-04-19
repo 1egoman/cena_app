@@ -13,6 +13,8 @@ user = mongoose.Schema
   hashedPassword: String
   hashSalt: String
 
+  tags: Array
+
 # check for a valid password
 user.methods.validPassword = (username, password, callback) ->
   this.model('User').findOne username: username, (err, u) ->

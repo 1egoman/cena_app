@@ -10,6 +10,8 @@
 passport = require "passport"
 bodyParser = require "body-parser"
 
+User = require '../models/user'
+
 module.exports = (app) ->
 
   # login view
@@ -28,3 +30,39 @@ module.exports = (app) ->
   app.get '/logout', (req, res) ->
     req.logout()
     res.redirect '/'
+
+  # == settings ==
+
+  # add new tag
+  app.post '/settings/tag',
+    bodyParser.urlencoded(extended: true),
+    (req, res) ->
+      User.update
+        username: req.user.username
+      ,
+        $push:
+          tags: req.body.name
+      , {}, (err, num, raw) ->
+        if err
+          res.send err: err.toString()
+        else
+          res.send
+            status: 'ok'
+            num: num
+
+
+  app.delete '/settings/tag',
+    bodyParser.urlencoded(extended: true),
+    (req, res) ->
+      User.update
+        username: req.user.username
+      ,
+        $pull:
+          tags: req.body.name
+      , {}, (err, num, raw) ->
+        if err
+          res.send err: err.toString()
+        else
+          res.send
+            status: 'ok'
+            num: num
