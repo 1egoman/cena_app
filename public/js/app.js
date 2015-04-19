@@ -545,3 +545,8 @@ app.factory("PrefsService", function($http) {
     }
   }
 });
+
+app.controller("NavController", function($scope) {
+  // get the user whoose lists we are viewing currently
+  $scope.owner = _.last(location.pathname.split("/")).replace("/", "");
+});

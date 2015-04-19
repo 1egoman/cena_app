@@ -1,5 +1,9 @@
 <div ng-controller="ListController">
 
+  <h1 ng-controller="NavController" class="text-center" ng-hide="username === owner">
+    {{owner}}'s Lists
+  </h1>
+
   <input
     type="text"
     typeahead="l.name for l in DispLists | filter:$viewValue | limitTo:8"

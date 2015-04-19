@@ -6,7 +6,7 @@
   <body ng-app="Cena" ng-init='username="<%= user.username %>"'>
 
     <!-- main navbar -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" ng-controller="NavController">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -28,7 +28,8 @@
             <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Link</a></li> -->
 
-            <li class="dropdown">
+            <!-- show grocery lists if we are on our page -->
+            <li class="dropdown" ng-show="owner === username">
               <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 Grocery Lists <span class="caret"></span>
               </a>
@@ -36,7 +37,7 @@
               <!-- display all grocery lists -->
               <ul class="dropdown-menu" role="menu" ng-controller="ListController">
                 <li ng-repeat="list in getListsByTag(lists, 'grocery')">
-                  <a href="#/lists/{{list.name}}">{{list.name}}</a>
+                  <a href="/account#/lists/{{list.name}}">{{list.name}}</a>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -48,14 +49,14 @@
               </ul>
             </li>
 
-            <!-- display all recipe lists -->
-            <li class="dropdown">
+            <!-- display all recipe lists if we are on our page -->
+            <li class="dropdown" ng-show="owner === username">
               <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 Recipies <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu" ng-controller="ListController">
                 <li ng-repeat="list in getListsByTag(lists, 'recipe')">
-                  <a href="#/lists/{{list.name}}">{{list.name}}</a>
+                  <a href="/account#/lists/{{list.name}}">{{list.name}}</a>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -67,16 +68,21 @@
               </ul>
             </li>
 
-            <!-- display other lists -->
-            <li class="dropdown">
+            <!-- display other lists if we are on our page -->
+            <li class="dropdown" ng-show="owner === username">
               <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 Others <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu" ng-controller="ListController">
                 <li ng-repeat="list in getListsByTag(lists, null)">
-                  <a href="#/lists/{{list.name}}">{{list.name}}</a>
+                  <a href="/account#/lists/{{list.name}}">{{list.name}}</a>
                 </li>
               </ul>
+            </li>
+
+            <!-- if not on our page, show a link to get back -->
+            <li ng-hide="owner === username">
+              <a href="/account">Lists</a>
             </li>
 
             <!-- foodstuffs -->
