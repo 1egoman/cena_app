@@ -3,3 +3,4 @@ npm-debug.log
 .sass-cache
 public/sass/*.css
 public/sass/*.css.map
+public/bower_components/
