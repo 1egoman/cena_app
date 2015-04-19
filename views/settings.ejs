@@ -13,9 +13,9 @@
         <!-- tag list -->
         <ul class="all-tags list-unstyled">
           <% user.tags.forEach(function(t) {%>
-            <li class="tag <%= t.split(' ').join('-') %>">
+            <li class="tag <%= t.name.split(' ').join('-') %>">
               <h3>
-                <%= t %>&nbsp;
+                <%= t.name %>&nbsp;
                 <span class="text-danger x" style="cursor: pointer;">x</span>
               </h3>
             </li>

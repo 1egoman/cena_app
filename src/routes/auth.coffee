@@ -33,36 +33,71 @@ module.exports = (app) ->
 
   # == settings ==
 
+  # all possible tag colors
+  tagColors = [
+    "danger"
+    "primary"
+    "success"
+  ]
+
   # add new tag
   app.post '/settings/tag',
     bodyParser.urlencoded(extended: true),
     (req, res) ->
-      User.update
-        username: req.user.username
-      ,
-        $push:
-          tags: req.body.name
-      , {}, (err, num, raw) ->
-        if err
-          res.send err: err.toString()
-        else
-          res.send
-            status: 'ok'
-            num: num
+      if req.user
+        # generate color to match with this item
+        i = Math.floor(Math.random() * (tagColors.length+1))
+        i = 0 if i > tagColors.length-1
+        color = tagColors[i]
 
+        User.update
+          username: req.user.username
+        ,
+          $push:
+            tags:
+              name: req.body.name,
+              color: color
+        , {}, (err, num, raw) ->
+          if err
+            res.send err: err.toString()
+          else
+            res.send
+              status: 'ok'
+              num: num
+      else
+        res.send error: "User isn't logged in."
 
+  # delete tag
   app.delete '/settings/tag',
     bodyParser.urlencoded(extended: true),
     (req, res) ->
-      User.update
-        username: req.user.username
-      ,
-        $pull:
-          tags: req.body.name
-      , {}, (err, num, raw) ->
-        if err
-          res.send err: err.toString()
-        else
-          res.send
-            status: 'ok'
-            num: num
+      if req.user
+        User.update
+          username: req.user.username
+        ,
+          $pull:
+            tags:
+              name: req.body.name
+        , {}, (err, num, raw) ->
+          if err
+            res.send err: err.toString()
+          else
+            res.send
+              status: 'ok'
+              num: num
+      else
+        res.send error: "User isn't logged in."
+
+  # get tag list
+  app.get '/settings/tags',
+    bodyParser.urlencoded(extended: true),
+    (req, res) ->
+      if req.user
+        User.findOne
+          username: req.user.username
+        , (err, user) ->
+          if err
+            res.send err: err.toString()
+          else
+            res.send
+              tags: user.tags

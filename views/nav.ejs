@@ -30,6 +30,9 @@
             <li>
               <% if (typeof user === 'object' && user) { %>
                 <a href="/account/<%= user.username %>">My Lists</a>
+            </li>
+            <li>
+                <a href="/settings">Settings</a>
               <% } %>
             </li>
           </ul>

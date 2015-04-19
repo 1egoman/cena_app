@@ -64,9 +64,9 @@ module.exports = (app) ->
 
   # settings
   app.get "/settings", (req, res) ->
-    User.findOne username: req.user.username, (err, user) ->
-      if req.user
+    if req.user
+      User.findOne username: req.user.username, (err, user) ->
         res.render "settings", user: user
-      else
-        # not authorized
-        res.redirect "/#"
+    else
+      # not authorized
+      res.redirect "/#"

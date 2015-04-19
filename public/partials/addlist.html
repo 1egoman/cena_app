@@ -38,15 +38,16 @@
           <li>
             <button ng-click='addTagToNewList("veg")' class="btn btn-xs btn-success">veg</button>
           </li>
-          <li>
-            <button ng-click='addTagToNewList("maggie")' class="btn btn-xs btn-warning" style="background: #F0F;">maggie</button>
+
+          <div style="width: 4px; display: inline-block;"></div>
+
+          <!-- custom, user tags -->
+          <li ng-repeat="tag in userTags">
+            <button ng-click='addTagToNewList(tag.name)' class="btn btn-xs btn-{{tag.color || 'default'}}">
+              {{tag.name}}
+            </button>
           </li>
-          <li>
-            <button ng-click='addTagToNewList("ryan")' class="btn btn-xs btn-success" style="background: #71C837;">ryan</button>
-          </li>
-          <li>
-            <button ng-click='addTagToNewList("bob")' class="btn btn-xs btn-info" style="background: #36b8c7;">bob</button>
-          </li>
+
         </ul>
       </div>
 

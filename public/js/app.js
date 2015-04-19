@@ -50,9 +50,14 @@ app.filter('reverse', function() {
   };
 });
 
-app.controller("ListController", function($scope, $routeParams, ListService, FoodStuffService, $rootScope, $location) {
+app.controller("ListController", function($scope, $routeParams, ListService, FoodStuffService, PrefsService, $rootScope, $location) {
   var root = $scope;
   root.isData = false;
+
+  // get all the tags that have been set in user preferences
+  PrefsService.getTags(function(tags) {
+    root.userTags = tags;
+  });
 
   // place to store incoming list data
   root.newList = {
@@ -520,4 +525,21 @@ app.factory("FoodStuffService", function($http) {
       });
     }
   };
+});
+
+app.factory("PrefsService", function($http) {
+  return {
+    tags: [],
+
+    getTags: function(callback) {
+      var root = this;
+      $http({
+        method: "get",
+        url: "/settings/tags"
+      }).success(function(data) {
+        root.tags = data.tags;
+        callback && callback(root.tags);
+      });
+    }
+  }
 });
