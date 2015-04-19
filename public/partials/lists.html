@@ -20,7 +20,6 @@
   >
     <div class="panel-heading">
       {{l.name}}
-      <small>{{l.desc}}</small>
       <small class="muted">{{l.tags.join(', ')}}</small>
 
       <!-- delete button -->
@@ -90,6 +89,21 @@
 
     </div>
 
+    <!-- description -->
+    <div class="panel-body row">
+      <textarea
+        placeholder="Recipe Description"
+        class="line-box blue-focus"
+        ng-model="l.desc"
+        ng-change="updateList(l)"
+        ng-hide="l.users.indexOf(username) === -1"
+      ></textarea>
+      <div class="container" ng-show="l.users.indexOf(username) === -1">
+        <p>{{l.desc}}</p>
+      </div>
+    </div>
+
+    <!-- search box -->
     <div class="panel-body row" ng-hide="l.users.indexOf(username) === -1">
       <div class="col-md-11 col-sm-11 col-xs-12">
         <input

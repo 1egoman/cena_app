@@ -24,6 +24,10 @@
     box-shadow: none;
     border-color: $dark-cena-green;
   }
+
+  &.blue-focus:focus {
+    border-color: $dark-cena-blue;
+  }
 }
 
 .modal .modal-content {
