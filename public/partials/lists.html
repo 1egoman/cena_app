@@ -27,6 +27,7 @@
       <button
         class="btn btn-danger btn-xs pull-right"
         ng-click="delList(l)"
+        ng-hide="l.users.indexOf(username) === -1"
         >Delete
       </button>
 
@@ -36,6 +37,7 @@
         style="margin-right: 6px;"
         data-toggle="modal"
         data-target="#accessModal-{{l.name.split(' ').join('-')}}"
+        ng-hide="l.users.indexOf(username) === -1"
         >Access...
       </button>
 
@@ -88,7 +90,7 @@
 
     </div>
 
-    <div class="panel-body row">
+    <div class="panel-body row" ng-hide="l.users.indexOf(username) === -1">
       <div class="col-md-11 col-sm-11 col-xs-12">
         <input
           type="text"
@@ -96,7 +98,7 @@
           typeahead="fs.name for fs in getTypeahead(l) | filter:$viewValue | limitTo:8"
           class="form-control"
           placeholder="Add new item to list"
-        />
+         />
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <button class="btn btn-primary pull-left" ng-click="addToList(l, foodstuff); foodstuff=''">Add</button>
@@ -155,6 +157,7 @@
           <button
             class="btn btn-danger btn-xs pull-right"
             ng-click="delFromList(l, cnt.name)"
+            ng-disabled="l.users.indexOf(username) === -1"
             >Delete
           </button>
 
@@ -165,6 +168,7 @@
             ng-model="cnt.price"
             ng-change="updateList(l)"
             placeholder="Price"
+            ng-disabled="l.users.indexOf(username) === -1"
           />
 
           <span class="pull-right at-sign">@</span>
@@ -176,6 +180,7 @@
             ng-model="cnt.amt"
             ng-change="updateList(l)"
             placeholder="Quantity"
+            ng-disabled="l.users.indexOf(username) === -1"
           />
         </span>
 
@@ -189,6 +194,7 @@
             ng-value="totalList(cnt).price | currency:''"
             placeholder="Price"
             style="margin-right: 53px;"
+            ng-disabled="cnt.users.indexOf(username) === -1"
           />
 
           <span class="pull-right at-sign">@</span>
@@ -200,6 +206,7 @@
             ng-model="cnt.amt"
             ng-change="updateList(l)"
             placeholder="Quantity"
+            ng-disabled="cnt.users.indexOf(username) === -1"
           />
 
           <!-- show list contents -->
@@ -226,6 +233,7 @@
               <button
                 class="btn btn-danger btn-xs pull-right"
                 ng-click="cnt.contents.splice($index, 1); cnt.contents.length || delFromList(l, cnt.name); updateList(l);"
+                ng-disabled="l.users.indexOf(username) === -1"
                 >Delete
               </button>
             </li>

@@ -349,9 +349,11 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
 app.factory("ListService", function($http) {
   return {
     get: function(cb) {
+      // see if we are trying to get lists for the current user or another
+      user = _.last(location.pathname.split("/")).replace("/", "") || "";
       $http({
         method: "get",
-        url: "/lists"
+        url: "/lists/"+user
       }).success(function(data) {
         cb && cb(data.data);
       });

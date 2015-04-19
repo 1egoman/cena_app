@@ -17,9 +17,9 @@ createCRUD = (app, Model, name) ->
         status: 403
 
   # get reference to all models that the user owns
-  app.get '/' + pl, makeSureLoggedIn, (req, res) ->
+  app.get '/' + pl + '/:user?', makeSureLoggedIn, (req, res) ->
     Model.find
-      users: req.user.username
+      users: req.params.user || req.user.username
     , (err, models) ->
       if err
         res.send err: err.toString()

@@ -57,10 +57,13 @@ app.get "/account", (req, res) ->
     res.redirect "/#"
 
 # go to a user's lists
-app.get /\/account\/(.+)/i, (req, res) ->
-
-  if req.user
-    res.render "main_app", user: req.user
+app.get "/account/:user", (req, res) ->
+  if req.user and req.params.user is req.user.username
+    # my lists
+    res.render "main", user: req.user, loadUser: req.user.username
+  else if req.user
+    # other's lists
+    res.render "main", user: req.user, loadUser: req.params.user
   else
     # not authorized
     res.redirect "/#"
