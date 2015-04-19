@@ -247,18 +247,38 @@
 
 
   <!-- only display when printing -->
-  <div class="visible-print-block printable-list" ng-repeat="l in DispLists">
-    <h3>{{l.name}} <small>{{l.desc}}</small></h3>
-    <div ng-repeat="(k, v) in printableList[l.name]">
-      <h4>{{k}}</h4>
-      <ul>
-        <li ng-repeat="i in v" style="padding-right: 16px;">
-          {{i.name}}
-          <small>{{i.desc}}</small><br/>
-          <span>{{i.price | currency }}</span>
-          <span style="margin-left: 10px;">{{i.tags.join(', ')}}</span>
-        </li>
-      </ul>
+  <div class="visible-print-block">
+    <img src="/img/logo.png" class="micro" />
+    <div class="printable-list" ng-repeat="l in DispLists">
+      <h3>
+        {{l.name}}
+        <small>{{l.desc}}</small>
+      </h3>
+      <div ng-repeat="(k, v) in printableList[l.name]">
+        <h4>
+          {{k}}
+        </h4>
+        <ul>
+          <li ng-repeat="i in v" style="padding-right: 16px;">
+            <!-- <span class="checkboxes"> -->
+              <span
+                class="glyphicon glyphicon-unchecked disabled"
+                style="margin-right: 10px;"
+                ng-hide="i.checked">
+              </span>
+              <span
+                class="glyphicon glyphicon-check text-primary"
+                style="margin-right: 10px;"
+                ng-show="i.checked">
+              </span>
+            <!-- </span> -->
+            {{i.name}}
+            <small>{{i.desc}}</small>&nbsp;
+            <span>{{i.price | currency }}</span>
+            <span style="margin-left: 10px;">{{i.tags.join(', ')}}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

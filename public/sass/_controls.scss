@@ -29,3 +29,7 @@
 .modal .modal-content {
   @include flat("modal", "left");
 }
+
+img.micro {
+  width: 16px;
+}
