@@ -1,4 +1,4 @@
-var app = angular.module("Cena", ['ui.bootstrap', 'ngRoute']);
+var app = angular.module("Cena", ['ui.bootstrap', 'ngRoute', 'hc.marked']);
 
 // angular routing
 app.config(['$routeProvider',

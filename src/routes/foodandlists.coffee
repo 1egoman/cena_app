@@ -16,7 +16,7 @@ createCRUD = (app, Model, name) ->
         error: "User isn't logged in."
         status: 403
 
-  # get reference to all models that the user owns
+  # get reference to all models that the specified user owns
   app.get '/' + pl + '/:user?', makeSureLoggedIn, (req, res) ->
     Model.find
       users: req.params.user || req.user.username

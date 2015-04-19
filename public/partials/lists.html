@@ -89,19 +89,24 @@
 
     </div>
 
-    <!-- description -->
+
+    <!-- description: rendered in markdown -->
     <div class="panel-body row">
+      <!-- edit -->
       <textarea
-        placeholder="Recipe Description"
+        placeholder="Recipe Description (Supports Markdown)"
         class="line-box blue-focus"
         ng-model="l.desc"
         ng-change="updateList(l)"
         ng-hide="l.users.indexOf(username) === -1"
       ></textarea>
+
+      <!-- render -->
       <div class="container" ng-show="l.users.indexOf(username) === -1">
-        <p>{{l.desc}}</p>
+        <p marked="l.desc"></p>
       </div>
     </div>
+
 
     <!-- search box -->
     <div class="panel-body row" ng-hide="l.users.indexOf(username) === -1">
