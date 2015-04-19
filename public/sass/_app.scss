@@ -62,11 +62,22 @@ ul.list-group .list-group-item {
 .quantity {
   margin: 0px 5px;
   width: 100px;
+  &:focus {
+    border-color: $dark-cena-blue;
+  }
 }
 
 .price {
   margin: 0px 5px 0px 0px;
   width: 100px;
+  &:focus {
+    border-color: $dark-cena-blue;
+  }
+}
+
+.quantity, .price {
+  @extend .line-box;
+  border-radius: 0px;
 }
 
 // dollar sign for price
