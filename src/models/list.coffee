@@ -5,5 +5,6 @@ listSchema = mongoose.Schema
   desc: String
   tags: Array
   contents: Array
-  user: String
+  users: Array
+
 module.exports = mongoose.model 'List', listSchema

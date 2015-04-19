@@ -5,6 +5,6 @@ foodstuffSchema = mongoose.Schema
   desc: String
   tags: Array
   price: String
-  user: String
+  users: Array
 
 module.exports = mongoose.model 'Foodstuff', foodstuffSchema

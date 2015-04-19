@@ -6,20 +6,32 @@ Foodstuff = require '../models/foodstuff'
 createCRUD = (app, Model, name) ->
   # plural form
   pl = name + 's'
-  # get reference to all models
-  app.get '/' + pl, (req, res) ->
-    Model.find {}, (err, models) ->
+
+  makeSureLoggedIn = (req, res, next) ->
+    if req.user
+      next()
+    else
+      next
+        error: "User isn't logged in."
+        status: 403
+
+  # get reference to all models that the user owns
+  app.get '/' + pl, makeSureLoggedIn, (req, res) ->
+    Model.find
+      users: req.user.username
+    , (err, models) ->
       if err
         res.send err: err.toString()
       else
         res.send data: models
       return
     return
+
   # add new item
   app.post '/' + pl, (req, res) ->
     data = req.body
-    data.user = 'admin'
-    n = new Model(data)
+    data.users = [req.user.username]
+    n = new Model data
     n.save (err) ->
       if err
         res.send err: err.toString()
@@ -27,6 +39,7 @@ createCRUD = (app, Model, name) ->
         res.send status: 'ok'
       return
     return
+
   # delete item
   app.delete '/' + pl + '/:name', (req, res) ->
     Model.remove { name: req.params.name }, (err) ->
@@ -36,6 +49,7 @@ createCRUD = (app, Model, name) ->
         res.send status: 'ok'
       return
     return
+
   # update item
   app.put '/' + pl + '/:name', (req, res) ->
     Model.update { name: req.params.name }, req.body, {}, (err, num, raw) ->
