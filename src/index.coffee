@@ -29,12 +29,12 @@ app.use flash()
 app.use require("sass-middleware") src: "public", quiet: true
 app.use require("express-static") path.join(__dirname, '../public')
 
-# set up authentication service and routes
+# set up authentication service
 require("./auth_setup") app
-require("./auth_routes") app
 
 # set up main app routes
 require("./routes/foodandlists") app
+require("./routes/auth") app
 
 app.get "/auth", app.protected(), (req, res) ->
   res.send "yay"
