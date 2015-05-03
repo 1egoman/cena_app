@@ -151,6 +151,15 @@ module.exports = function (grunt) {
   });
 
 
+  grunt.registerTask('bower_install', 'install frontend dependencies', function() {
+    var exec = require('child_process').exec;
+    var cb = this.async();
+    exec('./node_modules/bower/bin/bower install', {}, function(err, stdout, stderr) {
+      console.log(stdout);
+      cb();
+    });
+  });
+
   // Default task.
   grunt.registerTask('default', ['coffee', 'jshint']);
 
@@ -163,12 +172,12 @@ module.exports = function (grunt) {
   grunt.registerTask('coverage', [
     'clean',
     'coffee',
-    'coverageBackend'
+    'coverageBackend',
   ]);
 
   grunt.registerTask('heroku', [
     'clean',
     'coffee',
-    'auto_install'
+    'bower_install',
   ]);
 };
