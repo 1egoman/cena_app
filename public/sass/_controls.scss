@@ -37,3 +37,8 @@
 img.micro {
   width: 16px;
 }
+
+// get rid of top/bottom padding in panel-bodys
+.panel-body.no-pad {
+  padding: 0px 15px;
+}
