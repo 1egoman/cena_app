@@ -308,12 +308,18 @@
         {{l.name}}
         <small>{{l.desc}}</small>
       </h3>
+
+      <!-- each 'sort-' section -->
       <div ng-repeat="(k, v) in printableList[l.name]">
-        <h4>
-          {{k}}
-        </h4>
+        <h4>{{k}}</h4>
         <ul>
-          <li ng-repeat="i in v" style="padding-right: 16px;">
+
+          <!-- each item -->
+          <li
+            ng-repeat="i in v"
+            style="padding-right: 16px;"
+            ng-class="{'checked': i.checked}"
+            >
             <!-- <span class="checkboxes"> -->
               <span
                 class="glyphicon glyphicon-unchecked disabled"
@@ -321,7 +327,7 @@
                 ng-hide="i.checked">
               </span>
               <span
-                class="glyphicon glyphicon-check text-primary"
+                class="glyphicon glyphicon-check"
                 style="margin-right: 4px; font-size: 14px;"
                 ng-show="i.checked">
               </span>
@@ -333,6 +339,8 @@
             <span>{{i.price | currency }}</span>
             <span style="margin-left: 10px;">{{i.tags.join(', ')}}</span>
           </li>
+
+
         </ul>
       </div>
     </div>

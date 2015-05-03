@@ -126,6 +126,9 @@ ul.list-group .list-group-item {
       padding-left: 10px;
     }
 
+    // items are 'crossed out' if they are checked off
+    // .checked { text-decoration: line-through; }
+
     // color list items depending on store
     .store-color {}
     .store-color-primary { color: $brand-primary !important; }
