@@ -113,10 +113,16 @@ ul.list-group .list-group-item {
 }
 
 // for printable list
-@media print {
-  .printable-list {
-    -webkit-print-color-adjust: exact;
-    font-size: $font-size-base;
+.printable-list {
+  -webkit-print-color-adjust: exact;
+  font-size: $font-size-base;
+
+  .sort-well {
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
+
+  @media print {
     h4 {
       font-size: $font-size-base * 1.25;
     }
