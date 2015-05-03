@@ -17,7 +17,7 @@ expressSession = require "express-session"
 RedisStore = require('connect-redis')(expressSession)
 
 # connect to database
-require("./db") "mongodb://cena:cena@ds061611.mongolab.com:61611/cena_auth"
+require("./db") process.env.DB or "mongodb://cena:cena@ds061611.mongolab.com:61611/cena_auth"
 
 # middleware
 app.use expressSession
