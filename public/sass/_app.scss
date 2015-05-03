@@ -113,15 +113,26 @@ ul.list-group .list-group-item {
 }
 
 // for printable list
-.printable-list {
-  font-size: $font-size-base * .7;
-  h4 {
-    font-size: $font-size-base * .8;
-  }
+@media print {
+  .printable-list {
+    -webkit-print-color-adjust: exact;
+    font-size: $font-size-base;
+    h4 {
+      font-size: $font-size-base * 1.25;
+    }
 
-  ul {
-    list-style-type: none;
-    padding-left: 10px;
+    ul {
+      list-style-type: none;
+      padding-left: 10px;
+    }
+
+    // color list items depending on store
+    .store-color {}
+    .store-color-primary { color: $brand-primary !important; }
+    .store-color-info { color: $brand-info !important; }
+    .store-color-success { color: $brand-success !important; }
+    .store-color-warning { color: $brand-warning !important; }
+    .store-color-danger { color: $brand-danger !important; }
   }
 }
 

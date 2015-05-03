@@ -326,7 +326,9 @@
                 ng-show="i.checked">
               </span>
             <!-- </span> -->
-            {{i.name}}
+            <span class="store-color store-color-{{getShopForList(i).color}}">
+              {{i.name}}
+            </span>
             <small>{{i.desc}}</small>&nbsp;
             <span>{{i.price | currency }}</span>
             <span style="margin-left: 10px;">{{i.tags.join(', ')}}</span>

@@ -323,7 +323,7 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
     root.lists[l].users = _.without(root.lists[l].users, user);
   }
 
-  // get all "shop" tags for a specified list item
+  // get all possible "shop" tags
   root.getShops = function() {
     return _.filter(root.userTags, function(t) {
       return t.name.indexOf("shop-") === 0;
@@ -344,6 +344,20 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
 
     // update
     root.updateList(l);
+  };
+
+  // given a list item, reterive the shop
+  // that the list item will be bought at.
+  root.getShopForList = function(cnt) {
+    allShops = root.getShops();
+
+    shop = _.find(cnt.tags, function(t) {
+      return t.indexOf("shop-") === 0;
+    });
+
+    return _.find(allShops, function(s) {
+      return s.name === shop;
+    });
   };
 
   // update all list instances
