@@ -23,6 +23,7 @@
     ng-show="matchesSearchString(l, listSearchString)"
   >
     <div class="panel-heading">
+      <span class="list-{{c}}" ng-repeat="c in l.tags"></span>
       {{l.name}}
       <small class="muted">{{l.tags.join(', ')}}</small>
 
