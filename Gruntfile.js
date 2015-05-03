@@ -99,6 +99,17 @@ module.exports = function (grunt) {
         ],
       },
     },
+    auto_install: {
+      local: {},
+      subdir: {
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true,
+          npm: false
+        }
+      }
+    },
   });
 
   grunt.registerTask('coverageBackend', 'Test backend files as well as code coverage.', function () {
@@ -157,6 +168,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('heroku', [
     'clean',
-    'coffee'
+    'coffee',
+    'auto_install'
   ]);
 };

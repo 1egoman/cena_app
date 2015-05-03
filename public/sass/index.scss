@@ -12,7 +12,7 @@ $mid-cena-red: adjust_hue($mid-cena-blue, 128);
 $dark-cena-red: adjust_hue($dark-cena-blue, 128);
 
 // == imports ==
-@import url(http://fonts.googleapis.com/css?family=Dosis);
+@import url("//fonts.googleapis.com/css?family=Dosis");
 @import "bootstrap";
 
 @import "flat";
