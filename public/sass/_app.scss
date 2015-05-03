@@ -115,7 +115,14 @@ ul.list-group .list-group-item {
 // for printable list
 .printable-list {
   font-size: $font-size-base * .7;
-  h4 { font-size: $font-size-base * .8; }
+  h4 {
+    font-size: $font-size-base * .8;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 10px;
+  }
 }
 
 // navbar dropdown lists
