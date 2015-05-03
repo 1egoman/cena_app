@@ -32,7 +32,13 @@ app.use bodyParser.json()
 app.use flash()
 
 # auto compile and serve sass stylesheets
-app.use require("sass-middleware") src: "public", quiet: true
+# app.use require("sass-middleware") src: "public", quiet: true
+
+node_sass = require "node-sass-middleware"
+app.use node_sass
+  src: path.join(__dirname, "../public"),
+  dest: path.join(__dirname, "../public"),
+  debug: true
 app.use require("express-static") path.join(__dirname, '../public')
 
 # set up authentication service
