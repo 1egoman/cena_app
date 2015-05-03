@@ -205,7 +205,27 @@
             ng-change="updateList(l)"
             placeholder="Quantity"
             ng-disabled="l.users.indexOf(username) === -1"
-          />
+           />
+
+          <!-- store to buy the item at -->
+          <div class="store-group" role="group">
+
+            <!--
+            Each Store
+            make each one the correct color for a better ux
+            -->
+            <button
+              type="button"
+              class="btn-default"
+              ng-class="{'btn-{{s.color}}': cnt.tags.indexOf(s.name) !== -1}"
+              ng-repeat="s in getShops()"
+              ng-click="addRemoveShop(l, cnt, s.name)">
+              {{s.name.replace("shop-", '')}}
+            </button>
+
+            <!-- no store -->
+            <button type="button" ng-click="addRemoveShop(l, cnt)">x</button>
+          </div>
         </span>
 
         <!-- for other lists -->
@@ -309,7 +329,7 @@
             {{i.name}}
             <small>{{i.desc}}</small>&nbsp;
             <span>{{i.price | currency }}</span>
-            <span style="margin-left: 10px;">{{i.tags.join(', ')}}</span>
+            <span style="margin-left: 10px;">{{colorTags(i.tags.join(', '))}}</span>
           </li>
         </ul>
       </div>

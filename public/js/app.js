@@ -323,6 +323,29 @@ app.controller("ListController", function($scope, $routeParams, ListService, Foo
     root.lists[l].users = _.without(root.lists[l].users, user);
   }
 
+  // get all "shop" tags for a specified list item
+  root.getShops = function() {
+    return _.filter(root.userTags, function(t) {
+      return t.name.indexOf("shop-") === 0;
+    });
+  };
+
+  // add/delete shops for a specified list and item
+  root.addRemoveShop = function(l, cnt, s) {
+    // first, remove all shop tags.
+    cnt.tags = cnt.tags.filter(function(t) {
+      return t.indexOf("shop-") !== 0;
+    });
+
+    // then, add our new tag
+    if (s) {
+      cnt.tags.push(s);
+    };
+
+    // update
+    root.updateList(l);
+  };
+
   // update all list instances
   $rootScope.$on("listUpdate", function(status, data) {
     root.lists = data;

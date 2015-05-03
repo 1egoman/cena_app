@@ -130,6 +130,27 @@ ul.list-group .list-group-item {
   @extend .panel;
 }
 
+// styles for the "store selector" within
+// each food item in a list
+.store-group {
+  @extend .btn-group;
+  display: block;
+  margin: 4px 0px 0px 24px;
+
+  // when > screen-sm, float right.
+  // otherwise, float left under the name/desc/tags
+  @media (min-width: $screen-sm-min) {
+    display: inline-block;
+    margin: 0px 6px;
+  }
+
+  button {
+    @extend .btn;
+    @extend .btn-xs;
+    @extend .btn-default;
+  }
+}
+
 // == special tags ==
 
 // a grocery list
