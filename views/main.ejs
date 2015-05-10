@@ -52,7 +52,7 @@
             <!-- display all recipe lists if we are on our page -->
             <li class="dropdown" ng-show="owner === username">
               <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                Recipies <span class="caret"></span>
+                Recipes <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu" ng-controller="ListController">
                 <li ng-repeat="list in getListsByTag(lists, 'recipe')">
