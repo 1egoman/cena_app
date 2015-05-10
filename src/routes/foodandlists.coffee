@@ -19,7 +19,7 @@ createCRUD = (app, Model, name) ->
   # get reference to all models that the specified user owns
   app.get '/' + pl + '/:user?', makeSureLoggedIn, (req, res) ->
     Model.find
-      users: req.params.user || req.user.username
+      users: req.params.user or req.user.username
     , (err, models) ->
       if err
         res.send err: err.toString()
