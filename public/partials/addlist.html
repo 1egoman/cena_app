@@ -14,14 +14,6 @@
       </div>
 
       <div class="input-group">
-        <label>Description</label>
-        <textarea
-          class="form-control"
-          ng-model="newList.desc"
-        ></textarea>
-      </div>
-
-      <div class="input-group">
         <label>Space-seperated tags</label>
         <input type="text" class="form-control" id="list-tags" ng-model="newList.pretags" />
       </div>
@@ -52,6 +44,15 @@
           </li>
 
         </ul>
+      </div>
+
+      <!-- description: hide for a grocery list -->
+      <div class="input-group" ng-show="newList.pretags.split(' ').indexOf('grocery') === -1">
+        <label>Description</label>
+        <textarea
+          class="form-control"
+          ng-model="newList.desc"
+        ></textarea>
       </div>
 
       <div class="input-group">
