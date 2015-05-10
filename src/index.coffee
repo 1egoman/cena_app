@@ -38,7 +38,7 @@ node_sass = require "node-sass-middleware"
 app.use node_sass
   src: path.join(__dirname, "../public"),
   dest: path.join(__dirname, "../public"),
-  debug: true
+  # debug: true
 app.use require("express-static") path.join(__dirname, '../public')
 
 # set up authentication service

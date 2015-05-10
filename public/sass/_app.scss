@@ -150,6 +150,11 @@ ul.list-group .list-group-item {
   @extend .panel;
 }
 
+.dropdown-menu[typeahead-popup] {
+  background: #DDD;
+}
+
+
 // styles for the "store selector" within
 // each food item in a list
 .store-group {

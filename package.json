@@ -18,6 +18,9 @@
       "type": "MIT"
     }
   ],
+  "scripts": {
+    "start": "nodemon src/index.coffee"
+  },
   "devDependencies": {
     "bower": "^1.4.1",
     "chai": "~1.7.2",
