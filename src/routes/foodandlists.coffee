@@ -4,13 +4,7 @@ Foodstuff = require '../models/foodstuff'
 # create CRUD operations for the model
 
 # auth middleware to make sure a user is logged in
-exports.makeSureLoggedIn = makeSureLoggedIn = (req, res, next) ->
-  if req.user
-    next()
-  else
-    next
-      error: "User isn't logged in."
-      status: 403
+makeSureLoggedIn = require "./userloggedin"
 
 
 createCRUD = (app, Model, name) ->
