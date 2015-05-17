@@ -7,6 +7,7 @@
 ###
 'use strict';
 makeSureLoggedIn = require "./userloggedin"
+matchWithItems = require "../scrapers/matchItems"
 
 module.exports = (app) ->
 
@@ -37,6 +38,12 @@ module.exports = (app) ->
               status: "error"
               message: err
           else
-            res.send deals: data
+            matchWithItems req.user, data, (err, deals) ->
+              if err
+                res.send
+                  status: "error"
+                  message: err
+              else
+                res.send deals: deals
       else
         res.send deals: []
