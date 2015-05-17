@@ -3,18 +3,19 @@ List = require '../models/list'
 Foodstuff = require '../models/foodstuff'
 # create CRUD operations for the model
 
+# auth middleware to make sure a user is logged in
+exports.makeSureLoggedIn = makeSureLoggedIn = (req, res, next) ->
+  if req.user
+    next()
+  else
+    next
+      error: "User isn't logged in."
+      status: 403
+
+
 createCRUD = (app, Model, name) ->
   # plural form
   pl = name + 's'
-
-  # auth middleware to make sure a user is logged in
-  makeSureLoggedIn = (req, res, next) ->
-    if req.user
-      next()
-    else
-      next
-        error: "User isn't logged in."
-        status: 403
 
   # get reference to all models that the specified user owns
   app.get '/' + pl + '/:user?', makeSureLoggedIn, (req, res) ->
