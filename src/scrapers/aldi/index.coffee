@@ -10,7 +10,6 @@ makeArray = (obj) ->
     if parseInt key
       obj[key]
 
-
 exports.info = ->
   name: "Aldi"
   tag: "shop-aldi"
