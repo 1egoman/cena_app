@@ -176,6 +176,18 @@ ul.list-group .list-group-item {
   }
 }
 
+// foodstuff item deals
+.item-deals {
+  display: inline-block;
+  margin: 0px 10px;
+  text-decoration: none;
+
+  .deal-price::before {
+    content: '$';
+  }
+  .deal-name {}
+}
+
 // == special tags ==
 
 // a grocery list

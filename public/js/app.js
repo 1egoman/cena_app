@@ -534,7 +534,11 @@ app.controller("FsController", function($scope, $routeParams, FoodStuffService, 
     _.each(tags, function(t) {
       ShopService.doCache(t.name.slice(5), function(d) {
         if (d && d.deals) {
-          root.deals = root.deals.concat(d.deals);
+          dealsToAdd = _.map(d.deals, function(e) {
+            e.shop = t.name.slice(5);
+            return e;
+          });
+          root.deals = root.deals.concat(dealsToAdd);
         };
         console.log(root.deals);
       });

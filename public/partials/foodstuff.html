@@ -82,12 +82,18 @@
         {{l.name}} <small>{{l.price | currency}}</small>
 
         <!-- same or similar item deals -->
-        <span class="item-deals">
-          <a target="_blank" ng-repeat="d in findDeals(l.name)" href="{{d.url}}">
+        <div class="item-deals">
+          <a
+            target="_blank"
+            ng-repeat="d in findDeals(l.name)"
+            href="{{d.url}}"
+            class="text-muted"
+          >
+            <span class="deal-shop">{{d.shop}}</span>
             <span class="deal-price">{{d.price}}</span>
             <span class="deal-name">{{d.name}}</span>
           </a>
-        </span>
+        </div>
 
         <!-- delete button -->
         <button
