@@ -43,6 +43,7 @@ module.exports = (app) ->
           status: "error"
           message: "No such shop #{shopName}."
       finally
+        if not shop then return
         if shop.scrape
           shop.scrape null, (err, data) ->
             if err

@@ -428,9 +428,12 @@ app.factory("ListService", function($http) {
   };
 });
 
-app.controller("FsController", function($scope, $routeParams, FoodStuffService, $rootScope, $modal) {
+app.controller("FsController", function($scope, $routeParams, FoodStuffService, ShopService, PrefsService, $rootScope, $modal) {
   var root = $scope;
   root.isData = false;
+
+  // deal storage
+  root.deals = [];
 
   // place to store incoming list data
   root.newFs = {};
@@ -521,6 +524,30 @@ app.controller("FsController", function($scope, $routeParams, FoodStuffService, 
     return score > 0;
   };
 
+  // combine all shop deals into one master array
+  root.getDeals = function() {
+    // get all shop tags
+    tags = _.filter(PrefsService.tags, function(t) {
+      return t.name.indexOf("shop-") !== -1;
+    });
+
+    _.each(tags, function(t) {
+      ShopService.doCache(t.name.slice(5), function(d) {
+        if (d && d.deals) {
+          root.deals = root.deals.concat(d.deals);
+        };
+        console.log(root.deals);
+      });
+    });
+  };
+  root.getDeals();
+
+  root.findDeals = function(name) {
+    return _.filter(root.deals, function(d) {
+      return d.relatesTo.indexOf(name) !== -1;
+    });
+  };
+
 });
 
 app.factory("FoodStuffService", function($http) {
@@ -586,4 +613,45 @@ app.factory("PrefsService", function($http) {
 app.controller("NavController", function($scope) {
   // get the user whoose lists we are viewing currently
   $scope.owner = _.last(location.pathname.split("/")).replace("/", "");
+});
+
+app.factory("ShopService", function($http) {
+  return {
+    cache: {},
+    gettingCache: [],
+
+    // search for matching deals for each item
+    getMatchesFor: function(item, shop, callback) {
+      cont = function() {
+        callback(_.filter(cache[shop] || [], function(i) {
+          return i.relatedTo.indexOf(item) !== -1;
+        }));
+      };
+      console.log(this.cache, shop)
+      if (!this.cache[shop]) {
+        var that = this;
+        this.doCache(shop, function(){
+          console.log(that.cache)
+        });
+      }// else {
+      //  cont();
+      //}
+    },
+
+    doCache: function(shop, callback) {
+      var that = this;
+
+      // so you can't call this function constantly and overlaod the server
+      if (this.gettingCache.indexOf(shop) !== -1) return;
+      this.gettingCache.push(shop);
+
+      $http({
+        method: "get",
+        url: "/shops/"+shop+"/deals.json"
+      }).success(function(data) {
+        that.cache[shop] = data;
+        callback && callback(data);
+      });
+    }
+  }
 });
