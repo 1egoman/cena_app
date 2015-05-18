@@ -6,6 +6,9 @@
  * Licensed under the MIT license.
 ###
 'use strict';
+fs = require "fs"
+path = require "path"
+
 makeSureLoggedIn = require "./userloggedin"
 matchWithItems = require "../scrapers/matchItems"
 
@@ -39,6 +42,17 @@ module.exports = (app) ->
               message: err
           else
             matchWithItems req.user, data, (err, deals) ->
+
+              # cache the deals
+              cache = JSON.stringify
+                name: req.params.shop
+                date: new Date
+                deals: deals
+              , null, 2
+              fs.writeFile "src/scrapers/"+req.params.shop+"/deals.json", cache, (err) ->
+                console.log err
+
+
               if err
                 res.send
                   status: "error"

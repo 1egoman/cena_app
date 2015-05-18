@@ -5,3 +5,4 @@ public/sass/*.css
 public/sass/*.css.map
 public/bower_components/
 dist/
+src/scrapers/*/*.json
