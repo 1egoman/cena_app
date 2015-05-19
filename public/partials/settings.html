@@ -1,0 +1,42 @@
+<div class="settings" ng-controller="SettingsController">
+
+  <div class="panel">
+    <div class="panel-body">
+      <h1>Settings</h1>
+
+      <!-- tags -->
+      <section class="col-md-5 col-sm-12 col-xs-12">
+        <h2>Tags</h2>
+
+        <div class="form-group">
+
+          <!-- tag list -->
+          <ul class="all-tags list-unstyled">
+            <!-- <% user.tags.forEach(function(t) {%> -->
+              <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in user.tags">
+                <h3>
+                  {{t.name}}&nbsp;
+                  <span class="text-danger x" style="cursor: pointer;" ng-click="removeTag(t)">x</span>
+                </h3>
+              </li>
+            <!-- <% }); %> -->
+
+            <!-- new tag box -->
+            <li style="margin-top: 10px;">
+              <input type="text" placeholder="New Tag" class="line-box" ng-model="tagName" />
+              <button class="btn btn-primary" ng-click="addTag(tagName); tagName=''">Add</button>
+              <small class="muted">
+                <br/>
+                Type a new tag above, and then press enter. Tags should ideally
+                be dasherized <code>like-this</code>.
+              </small>
+            </li>
+
+          </ul>
+        </div>
+
+      </section>
+
+    </div>
+  </div>
+</div>
