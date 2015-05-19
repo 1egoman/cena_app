@@ -4,5 +4,12 @@ The better, production-ready version of Cena. Restructured from the ground up
 using passportjs for authentication. Hopefully, this could be profitable, but
 we'll see.
 
+## Initialization
+```bash
+npm install
+bower install
+grunt watch
+```
+
 ## License
 Copyright (c) 2015 Ryan Gaus. Licensed under the MIT license.
