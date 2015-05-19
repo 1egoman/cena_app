@@ -4,6 +4,10 @@
   ($routeProvider) ->
     $routeProvider
 
+      .when '/dash',
+        templateUrl: '/partials/home.html'
+        controller: 'HomeController'
+
       .when '/lists',
         templateUrl: '/partials/lists.html'
         controller: 'ListController'
@@ -29,8 +33,10 @@
 
       .when '/settings',
         templateUrl: '/partials/settings.html'
+
       .when '/readme',
           templateUrl: '/partials/readme.html'
+
       .otherwise redirectTo: '/lists'
 
 ]
