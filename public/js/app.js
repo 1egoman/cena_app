@@ -32,6 +32,9 @@ app.config(['$routeProvider',
         templateUrl: '/partials/lists.html',
         controller: 'ListController'
       }).
+      when('/settings', {
+        templateUrl: '/partials/settings.html'
+      }).
       when('/readme', {
         templateUrl: '/partials/readme.html'
       }).
@@ -658,4 +661,48 @@ app.factory("ShopService", function($http) {
       });
     }
   }
+});
+
+app.controller("SettingsController", function($scope, $http) {
+  var root = $scope;
+
+  root.user = {};
+
+  // gt all tags
+  root.getTags = function() {
+    $http({
+      method: "get",
+      url: "/settings/tags"
+    }).success(function(data) {
+      root.user.tags = data.tags;
+    });
+  };
+  root.getTags();
+
+  // add a new tag
+  root.addTag = function(name) {
+    $http({
+      method: "post",
+      url: "/settings/tag",
+      data: {name: name}
+    }).success(function(data) {
+      root.user.tags.push({
+        name: name,
+        color: "danger"
+      });
+    });
+  };
+
+  // remove tag
+  root.removeTag = function(t) {
+    $http({
+      method: "delete",
+      url: "/settings/tag/"+t.name
+    }).success(function(data) {
+      console.log(root.user.tags)
+      root.user.tags = _.without(root.user.tags, t);
+    });
+  };
+
+
 });

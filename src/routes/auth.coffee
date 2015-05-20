@@ -68,25 +68,24 @@ module.exports = (app) ->
         res.send error: "User isn't logged in."
 
   # delete tag
-  app.delete '/settings/tag',
-    bodyParser.urlencoded(extended: true),
-    (req, res) ->
-      if req.user
-        User.update
-          username: req.user.username
-        ,
-          $pull:
-            tags:
-              name: req.body.name
-        , {}, (err, num, raw) ->
-          if err
-            res.send err: err.toString()
-          else
-            res.send
-              status: 'ok'
-              num: num
-      else
-        res.send error: "User isn't logged in."
+  app.delete '/settings/tag/:name?', (req, res) ->
+    console.log req.params.name
+    if req.user
+      User.update
+        username: req.user.username
+      ,
+        $pull:
+          tags:
+            name: req.body.name or req.params.name
+      , {}, (err, num, raw) ->
+        if err
+          res.send err: err.toString()
+        else
+          res.send
+            status: 'ok'
+            num: num
+    else
+      res.send error: "User isn't logged in."
 
   # get tag list
   app.get '/settings/tags',
