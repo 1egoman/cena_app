@@ -4,9 +4,9 @@
   ($routeProvider) ->
     $routeProvider
 
-      .when '/dash',
-        templateUrl: '/partials/home.html'
-        controller: 'HomeController'
+      .when '/shops',
+        templateUrl: '/partials/shops.html'
+        controller: 'ShopsController'
 
       .when '/lists',
         templateUrl: '/partials/lists.html'
