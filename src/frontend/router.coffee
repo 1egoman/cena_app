@@ -4,10 +4,6 @@
   ($routeProvider) ->
     $routeProvider
 
-      .when '/shops',
-        templateUrl: '/partials/shops.html'
-        controller: 'ShopsController'
-
       .when '/lists',
         templateUrl: '/partials/lists.html'
         controller: 'ListController'
