@@ -12,6 +12,13 @@
     placeholder="Search Lists"
   />
   <br/>
+  
+  <!-- if the user has no lists, show a warning -->
+  <div class="panel" ng-hide="DispLists.length">
+    <div class="panel-body">
+      No Lists.
+    </div>
+  </div> 
 
   <!-- loading icon -->
   <span ng-hide="isData" class="glyphicon glyphicon-refresh spinning loading"></span>
