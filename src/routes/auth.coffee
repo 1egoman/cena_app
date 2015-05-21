@@ -45,18 +45,22 @@ module.exports = (app) ->
     bodyParser.urlencoded(extended: true),
     (req, res) ->
       if req.user
-        # generate color to match with this item
-        i = Math.floor(Math.random() * (tagColors.length+1))
-        i = 0 if i > tagColors.length-1
-        color = tagColors[i]
-
         User.update
           username: req.user.username
         ,
           $push:
             tags:
+              # update user with new tag
               name: req.body.name,
-              color: color
+              color: do ->
+                if req.body.color
+                  req.body.color
+                else
+                  # generate random color to match with this item
+                  i = Math.floor(Math.random() * (tagColors.length+1))
+                  i = 0 if i > tagColors.length-1
+                  tagColors[i]
+
         , {}, (err, num, raw) ->
           if err
             res.send err: err.toString()
