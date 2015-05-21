@@ -6,3 +6,5 @@ public/sass/*.css.map
 public/bower_components/
 dist/
 src/scrapers/*/*.json
+public/js/*
+!public/js/ui-bootstrap.min.js

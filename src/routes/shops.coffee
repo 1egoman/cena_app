@@ -60,7 +60,7 @@ module.exports = (app) ->
                   deals: deals
                 , null, 2
                 fs.writeFile "src/scrapers/"+shopName+"/deals.json", cache, (err) ->
-                  err and console.log "Error in writing scraper cache for #{storeName}: #{err}"
+                  err and console.log "Error in writing scraper cache for #{shopName}: #{err}"
 
 
                 if err

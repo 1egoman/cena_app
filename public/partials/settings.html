@@ -1,37 +1,70 @@
-<div class="settings container" ng-controller="SettingsController">
+<div class="settings container">
 
   <!-- tags -->
-  <div class="panel sized medium">
-    <div class="panel-heading">Tags</div>
-    <div class="panel-body">
+  <section class="tag-stuff" ng-controller="TagsController">
 
-        <div class="form-group">
+    <!-- tag viewer -->
+    <div class="panel sized size-md">
+      <div class="panel-heading">Tags</div>
+      <div class="panel-body">
 
-          <!-- tag list -->
-          <ul class="all-tags list-unstyled">
-            <!-- <% user.tags.forEach(function(t) {%> -->
-              <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in user.tags">
-                <h3>
-                  {{t.name}}&nbsp;
-                  <span class="text-danger x" style="cursor: pointer;" ng-click="removeTag(t)">x</span>
-                </h3>
-              </li>
-            <!-- <% }); %> -->
-
-            <!-- new tag box -->
-            <li style="margin-top: 10px;">
-              <input type="text" placeholder="New Tag" class="line-box" ng-model="tagName" />
-              <button class="btn btn-primary" ng-click="addTag(tagName); tagName=''">Add</button>
-              <small class="muted">
-                <br/>
-                Type a new tag above, and then press enter. Tags should ideally
-                be dasherized <code>like-this</code>.
-              </small>
+        <!-- tag list -->
+        <div class="input-group tag-buttons">
+          <ul>
+            <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
+              <button class="btn btn-xs btn-{{t.color || 'default'}}">
+                {{t.name}}
+                <span class="x" ng-click="removeTag(t)">x</span>
+              </button>
             </li>
-
           </ul>
         </div>
 
+        <!-- new tag input -->
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="New Tag"
+            class="line-box"
+            ng-model="tagName"
+            style="width: 300px;"
+            placeholder="Tag Name"
+           />
+          <select
+            ng-model="tagColor"
+            class="line-box"
+            style="width: 100px;"
+          >
+            <option value="" default selected="selected">Color</option>
+            <option value="danger">red</option>
+            <option value="primary">blue</option>
+            <option value="success">green</option>
+          </select>
+          <button class="btn btn-primary" ng-click="addTag(tagName, tagColor); tagName=''">Add</button>
+
+          <small class="muted">
+            <br/><br/>
+            Type a new tag above, and then press add. Tags should ideally
+            be dasherized <code>like-this</code>.
+          </small>
+        </div>
+
+      </div>
     </div>
-  </div>
+
+    <!-- shop viewer, which lets you add shop tags -->
+    <div class="panel" ng-controller="ShopsController">
+      <div class="panel-heading">Shops</div>
+      <div class="panel-body">
+        <ul>
+          <li ng-repeat="shop in shops" ng-click="selectShop(shop, !shop.enabled)">
+            <span ng-show="shop.enabled">x</span>
+            <span ng-hide="shop.enabled">&nbsp;</span>
+            {{shop.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
 </div>
