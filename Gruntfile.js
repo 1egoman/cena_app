@@ -82,7 +82,7 @@ module.exports = function (grunt) {
         tasks: ['coffee:test', 'simplemocha:backend']
       },
       frontend: {
-        files: 'src/frontend/*',
+        files: 'src/frontend/**/*.coffee',
         tasks: ['coffee:frontend']
       }
     },

@@ -1,34 +1,28 @@
 # settings controller
-@app.controller "TagsController", ($scope, $http) ->
+@app.controller "TagsController", ($scope, $http, TagService) ->
   root = $scope
-  root.user = {}
+
+  # user list
+  root.tags = []
+
+  # new tag added or deleted
+  TagService.onChange (tags) ->
+    root.tags = tags
 
   # get all tags
   root.getTags = ->
-    $http
-      method: "get"
-      url: "/settings/tags"
-    .success (data) ->
-      root.user.tags = data.tags
+    TagService.get (err, tags) ->
+      root.tags = tags
   root.getTags()
 
   # add a new tag
   root.addTag = (name, color) ->
-    $http
-      method: "post"
-      url: "/settings/tag"
-      data:
-        name: name
-        color: color
-    .success (data) ->
-      root.user.tags.push
+    TagService.add name, color, (err, tags) ->
+      root.tags.push
         name: name
         color: color
 
   # remove a tag
   root.removeTag = (t) ->
-    $http
-      method: "delete"
-      url: "/settings/tag/#{t.name}"
-    .success (data) ->
-      root.user.tags = _.without root.user.tags, t
+    TagService.remove t, (err) ->
+      root.tags = _.without root.tags, t

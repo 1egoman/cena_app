@@ -11,7 +11,7 @@
         <!-- tag list -->
         <div class="input-group tag-buttons">
           <ul>
-            <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in user.tags">
+            <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
               <button class="btn btn-xs btn-{{t.color || 'default'}}">
                 {{t.name}}
                 <span class="x" ng-click="removeTag(t)">x</span>
@@ -58,7 +58,9 @@
       <div class="panel-body">
         <ul>
           <li ng-repeat="shop in shops" ng-click="selectShop(shop, !shop.enabled)">
-            {{shop}}
+            <span ng-show="shop.enabled">x</span>
+            <span ng-hide="shop.enabled">&nbsp;</span>
+            {{shop.name}}
           </li>
         </ul>
       </div>
