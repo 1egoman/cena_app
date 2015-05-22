@@ -1,5 +1,8 @@
 # list factory
-@app.factory 'ListService', ($http) ->
+@app.factory 'List', ($http, $resource) ->
+  return $resource "/lists/:id", id: '@_id',
+    update:
+      method: "put"
 
   # get all lists for a specified user
   get: (cb) ->

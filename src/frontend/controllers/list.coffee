@@ -1,5 +1,5 @@
 # list controller
-@app.controller 'ListController', ($scope, $routeParams, ListService, FoodStuff, PrefsService, $rootScope, $location) ->
+@app.controller 'ListController', ($scope, $routeParams, List, FoodStuff, PrefsService, $rootScope, $location) ->
   root = $scope
   root.isData = false
 
@@ -14,41 +14,26 @@
   # search string for list
   root.listSearchString = ''
 
-  ListService.get (all) ->
+  # get all lists
+  List.query (all) ->
     root.lists = all
     root.isData = true
+
     # get lists to display
-    root.DispLists = _.filter(root.lists, (list) ->
-      list.name == $routeParams.list
-    )
+    root.DispLists = _.filter root.lists, (list) ->
+      list.name is $routeParams.list
+
     # if we got nothing, display all
-    if root.DispLists.length == 0
+    if root.DispLists.length is 0
       root.DispLists = all
 
     # next, the foodstuffs
-    # root.foodstuffs = [
-    #   {
-    #     name: "Bread",
-    #     price: 5.50,
-    #     tags: ["abc"]
-    #   },
-    #   {
-    #     name: "Milk",
-    #     price: 1.00,
-    #     tags: ["abc"]
-    #   },
-    #   {
-    #     name: "Cheese",
-    #     price: 0.24,
-    #     tags: ["abc"]
-    #   }
-    # ];
     FoodStuff.query (all) ->
       root.foodstuffs = all
 
     root.doPrintableList()
-  # return all lists that have the specified tag included
 
+  # return all lists that have the specified tag included
   root.getListsByTag = (lists, tag) ->
     # if tag is set, look for everything with that tag
     # otherwise, get everthing that isn't a tag
@@ -76,7 +61,6 @@
     out
 
   # list fuzzy searching
-
   root.matchesSearchString = (list, filter) ->
     # if there's no filter, return true
     if !filter
@@ -99,183 +83,173 @@
     score > 0
 
   # add new list
+  root.add = (listData) ->
+    # format tags correctly
+    listData.tags = listData.tags or (listData.pretags or "").split ' '
 
-  root.addList = (list) ->
-    # tags
-    list.tags = list.tags or list.pretags and list.pretags.split(' ')
-    ListService.add list, (data) ->
-      # update all list instances
-      ListService.get (all) ->
-        $rootScope.$emit 'listUpdate', all
-        $location.url '/lists'
-        return
-      return
-    return
+    # add and push item to backend resource
+    list = new List listData
+    list.$save ->
+      root.lists.push listData
 
   # delete list
-
-  root.delList = (list) ->
-    ListService.remove { name: list.name }, (data) ->
-      # update all list instances
-      ListService.get (all) ->
-        root.lists = data
-        $rootScope.$emit 'listUpdate', all
-        return
-      return
-    return
+  root.remove = (list) ->
+    List.remove _id: list._id, ->
+      root.lists = _.without root.lists, list
 
   # add a new item to list
-
   root.addToList = (list, item) ->
-    _.each _.filter(root.lists, (l) ->
-      l.name == list.name
-    ), (list) ->
-      # find the item we want
-      fs = _.filter(root.getTypeahead(list), (s) ->
-        s.name == item
-      )
-      # update each list
-      _.each fs, (f) ->
-        # make sure these are set
-        if !f.contents
-          f.price = f.price or '0.00'
-        f.amt = f.amt or 1
-        f.checked = false
-        # add to list
-        list.contents.push $.extend(true, {}, f)
-        return
-      # lastly, update the backend
-      ListService.update list
-      return
-    return
+
+    # find the item we want
+    listItem = _.find root.getTypeahead(list), (s) ->
+      s.name is item
+
+    # make sure these are set
+    listItem.price = listItem.price or '0.00' if not listItem.contents
+    listItem.amt = listItem.amt or 1
+    listItem.checked = false
+
+    # add to list
+    list.contents.push $.extend(true, {}, listItem)
+    List.update list, ->
+
+      # regenerate printable lists
+      root.doPrintableList()
 
   # delete a new item from list
+  root.removeFromList = (list, item) ->
+    # find the item we want
+    listItem = _.find root.getTypeahead(list), (s) ->
+      s.name is item
 
-  root.delFromList = (list, item) ->
-    _.each _.filter(root.lists, (l) ->
-      l.name == list.name
-    ), (list) ->
-      # find the foodstuff we want
-      fs = _.filter(list.contents, (s) ->
-        s.name == item
-      )
-      # update each list
-      _.each fs, (f) ->
-        list.contents.splice list.contents.indexOf(f), 1
-        return
-      # lastly, update the backend
-      ListService.update list
-      return
-    return
+    # remove item from list
+    list.contents.splice list.contents.indexOf(listItem), 1
+    List.update list, ->
 
-  # force a list update
+      # regenerate printable lists
+      root.doPrintableList()
 
-  root.updateList = (list) ->
-    ListService.update list
-    return
-
+  # update user access model after saving
   root.updateUsersModal = (list) ->
-    ListService.update list
+    List.update list
     $('.accessModal').modal 'hide'
-    return
+    true
 
-  # get items for typeahead
-
+  # get items for typeahead (box used to add new list items)
   root.getTypeahead = (list) ->
-    _.union root.foodstuffs, _.filter(root.lists, (lst) ->
-      lst.name != list.name
-    )
+    _.union \
+      root.foodstuffs,
+      _.filter root.lists, (lst) ->
+        lst.name isnt list.name
 
-  # get total stuff about list
-
-  root.totalList = (list) ->
-    totalPrice = _.reduce(list.contents, ((prev, l) ->
+  # get totals from list
+  # right now, only does price (subtotal) and
+  # real price (including tax)
+  root.totalList = (list, tax=0.08) ->
+    totalPrice = _.reduce list.contents, (prev, l) ->
       if l.contents
-        prev + l.amt * root.totalList(l).price
+        prev + l.amt * root.totalList(l).subtotal
       else
-        prev + l.amt * parseFloat(l.price)
-    ), 0)
-    { price: totalPrice }
+        prev + l.amt * parseFloat l.price
+    , 0
+
+    subtotal: totalPrice
+    price: totalPrice * (1+tax)
+    tax: tax
 
   # extract all items from a list
   # and turn it into 1 big list
-
+  # (a flatten operation for nested lists)
   root.deItemizeList = (list) ->
-    _.flatten _.map(list.contents, (l) ->
+    _.flatten _.map list.contents, (l) ->
       if l.contents
         root.deItemizeList l
       else
         l
-    )
 
+  # sort by the "sort-" tags into groups
+  # (this is part of the printable list sorting)
   root.sortByTag = (list) ->
     # flatten the list
-    flatList = root.deItemizeList(list)
+    flatList = root.deItemizeList list
+
     # sort the list
     _.groupBy flatList, (n) ->
       # sort by sort tags that are present
-      _.filter(n.tags, (t) ->
-        t.indexOf('sort-') == 0
-      ).join(' ') or 'Unsorted'
+      _.filter n.tags, (t) ->
+        t.indexOf('sort-') is 0
+      .join(' ') or 'Unsorted'
 
+  # generate the printable list
   root.doPrintableList = ->
     _.each root.lists, (l) ->
       root.printableList[l.name] = root.sortByTag(l)
-      # console.log(root.printableList);
-      return
-    return
 
   # add the tag, and delimit it with spaces
-
+  # this is ued in the new list dialog to make
+  # those "quick tag add" buttons.
   root.addTagToNewList = (tag) ->
     root.newList.pretags = (root.newList.pretags or '') + ' ' + tag
     root.newList.pretags = root.newList.pretags.trim()
     $('input#list-tags').focus()
-    return
+    true
 
   # grant a new user access to the specified list
-
   root.addUserToList = (l, user) ->
     root.lists[l].users.push user
-    console.log 'ADD', root.lists[l].users, l
-    return
 
   # remove a user's access to the specified list
-
   root.removeUserFromList = (l, user) ->
-    root.lists[l].users = _.without(root.lists[l].users, user)
+    root.lists[l].users = _.without root.lists[l].users, user
     return
+
+
+  #########
+  # Shops #
+  #########
 
   # get all possible "shop" tags
-
   root.getShops = ->
     _.filter root.userTags, (t) ->
-      t.name.indexOf('shop-') == 0
+      t.name.indexOf('shop-') is 0
 
   # add/delete shops for a specified list and item
+  root.addRemoveShop = (list, cnt, s) ->
 
-  root.addRemoveShop = (l, cnt, s) ->
     # first, remove all shop tags.
-    cnt.tags = cnt.tags.filter((t) ->
+    cnt.tags = cnt.tags.filter (t) ->
       t.indexOf('shop-') != 0
-    )
+
     # then, add our new tag
-    if s
-      cnt.tags.push s
+    cnt.tags.push s if s
+
     # update
-    root.updateList l
-    return
+    List.update list
 
-  # given a list item, reterive the shop
+  # given a list item, retrive the shop
   # that the list item will be bought at.
-
   root.getShopForList = (cnt) ->
     allShops = root.getShops()
-    shop = _.find(cnt.tags, (t) ->
-      t.indexOf('shop-') == 0
-    )
+    shop = _.find cnt.tags, (t) ->
+      t.indexOf('shop-') is 0
+
     _.find allShops, (s) ->
-      s.name == shop
+      s.name is shop
+
+
+  #############
+  # Utilities #
+  #############
+
+  # convert any string into a safe css classname
+  # from http://stackoverflow.com/questions/7627000/javascript-convert-string-to-safe-class-name-for-css
+  root.safeClassName = (name) ->
+    name.replace /[^a-z0-9]/g, (s) ->
+      c = s.charCodeAt 0
+      return '-' if c is 32
+      return '_' + s.toLowerCase() if c >= 65 and c <= 90
+      return '__' + ('000' + c.toString(16)).slice -4
+
 
   # update all list instances
   $rootScope.$on 'listUpdate', (status, data) ->
