@@ -3,10 +3,11 @@ _ = require "underscore"
 Lev = require "levenshtein"
 
 # how close together items need to be to be "related"
-RELATION_COEFFICIENT = process.env.RELATION_COEFFICIENT or 6
+RELATION_COEFFICIENT = process.env.RELATION_COEFFICIENT or 2
 
 
 ###
+== OLD ALGORITHM ==
 Ok, so this is how this works:
 
 Each iteration, take foodstuffname and shift it over one. So:
@@ -77,6 +78,19 @@ relate = (storename, foodstuffname, add=1, del=1, replace=1) ->
 
   _.min scores
 
+
+similar = (store, foodstuff) ->
+  storewords = store.split ' '
+  fswords = foodstuff.split ' '
+
+  distance = _.intersection(storewords, fswords).length
+  if distance >= RELATION_COEFFICIENT
+    true
+  else if storewords.length is 1 and storewords[0] in fswords
+    true
+  else
+    false
+
 module.exports = (user, items, cb) ->
 
   # get all foodstuffs
@@ -86,8 +100,8 @@ module.exports = (user, items, cb) ->
       i.relatesTo = _.compact fs.map (fd) ->
 
         # do the items relate?
-        distance = relate i.name, fd.name
-        if distance < RELATION_COEFFICIENT
+        distance = similar i.name, fd.name
+        if distance and fd.name.length
           fd.name
 
       i

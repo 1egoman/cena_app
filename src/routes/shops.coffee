@@ -9,6 +9,7 @@
 fs = require "fs"
 path = require "path"
 chalk = require "chalk"
+_ = require "underscore"
 
 makeSureLoggedIn = require "./userloggedin"
 matchWithItems = require "../scrapers/matchItems"
@@ -68,13 +69,15 @@ module.exports = (app) ->
                     status: "error"
                     message: err
                 else
+                  # filter out all the crud from scraping
+                  deals = deals.filter (d) -> d.name.length
                   res.send deals: deals
         else
           res.send deals: []
 
     # first, try and read deals from disk
     fs.readFile path.join("src", "scrapers", req.params.shop, "deals.json"), (err, data) ->
-      if not err
+      if not err and json and json.length
         json = JSON.parse data
         if new Date(json.date).getTime() + dealsExpireAfter > new Date().getTime()
           res.send deals: json.deals

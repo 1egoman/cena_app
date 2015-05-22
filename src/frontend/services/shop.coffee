@@ -8,7 +8,7 @@
 'use strict';
 
 # shop service
-@app.factory 'ShopService', ($http) ->
+@app.factory 'Shops', ($http) ->
   cache: {}
   gettingCache: []
 
@@ -16,14 +16,18 @@
   getMatchesFor: (item, shop, callback) ->
 
     cont = ->
-      callback _.filter(cache[shop] or [], (i) ->
+      a = _.filter cache[shop] or [], (i) ->
         i.relatedTo.indexOf(item) != -1
-      )
+      console.log a
+      callback a
 
     # console.log @cache, shop
-    if !@cache[shop]
+    if not @cache[shop]
       @doCache shop, =>
-        # console.log that.cache
+        cont()
+    else
+      cont()
+
 
 
   doCache: (shop, callback) ->
