@@ -235,7 +235,7 @@
 
     # first, remove all shop tags.
     cnt.tags = cnt.tags.filter (t) ->
-      t.indexOf('shop-') != 0
+      t.indexOf('shop-') isnt 0
 
     # then, add our new tag
     cnt.tags.push s if s

@@ -224,14 +224,21 @@
             <button
               type="button"
               class="btn-default"
-              ng-class="{'btn-{{s.color}}': cnt.tags.indexOf(s.name) !== -1}"
+              style="{{
+                cnt.tags.indexOf(s.name) !== -1 &&
+                'color: #FFF; background: '+s.color
+              }}"
               ng-repeat="s in getShops()"
               ng-click="addRemoveShop(l, cnt, s.name)">
               {{s.name.replace("shop-", '')}}
             </button>
 
             <!-- no store -->
-            <button type="button" ng-click="addRemoveShop(l, cnt)">x</button>
+            <button
+              ng-show="getShops().length"
+              type="button"
+              ng-click="addRemoveShop(l, cnt)"
+              >x</button>
           </div>
         </span>
 
