@@ -16,14 +16,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/account/<%= user.username %>">
+          <a class="navbar-brand" href="/account">
             <img src="/img/logo.png" />
           </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav" ng-controller="ListController">
 
             <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Link</a></li> -->
@@ -35,7 +35,7 @@
               </a>
 
               <!-- display all grocery lists -->
-              <ul class="dropdown-menu" role="menu" ng-controller="ListController">
+              <ul class="dropdown-menu" role="menu">
                 <li ng-repeat="list in getListsByTag(lists, 'grocery')">
                   <a href="/account#/lists/{{list.name}}">{{list.name}}</a>
                 </li>
@@ -54,7 +54,7 @@
               <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 Recipes <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu" role="menu" ng-controller="ListController">
+              <ul class="dropdown-menu" role="menu">
                 <li ng-repeat="list in getListsByTag(lists, 'recipe')">
                   <a href="/account#/lists/{{list.name}}">{{list.name}}</a>
                 </li>
@@ -73,7 +73,7 @@
               <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 Others <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu" role="menu" ng-controller="ListController">
+              <ul class="dropdown-menu" role="menu">
                 <li ng-repeat="list in getListsByTag(lists, null)">
                   <a href="/account#/lists/{{list.name}}">{{list.name}}</a>
                 </li>
@@ -92,7 +92,7 @@
 
             <!-- settings page -->
             <li>
-              <a href="/settings">Settings</a>
+              <a href="/account/#/settings">Settings</a>
             </li>
 
             <!-- readme -->
@@ -127,15 +127,29 @@
 
     <!-- javascript -->
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/js/libs/angular.min.js"></script>
-    <script src="/js/libs/angular-route.min.js"></script>
-    <script src="/js/libs/underscore.min.js"></script>
-    <script src="/js/libs/ui-bootstrap.min.js"></script>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-route/angular-route.min.js"></script>
+    <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="/bower_components/underscore/underscore-min.js"></script>
+    <script src="/js/ui-bootstrap.min.js"></script>
     <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/bower_components/marked/marked.min.js"></script>
     <script src="/bower_components/angular-marked/angular-marked.min.js"></script>
 
     <script src="/js/app.js"></script>
+    <script src="/js/router.js"></script>
+    <script src="/js/reverse_filter.js"></script>
 
+    <script src="/js/controllers/list.js"></script>
+    <script src="/js/controllers/foodstuff.js"></script>
+    <script src="/js/controllers/nav.js"></script>
+    <script src="/js/controllers/tags.js"></script>
+    <script src="/js/controllers/shops.js"></script>
+
+    <script src="/js/services/list.js"></script>
+    <script src="/js/services/foodstuff.js"></script>
+    <script src="/js/services/prefs.js"></script>
+    <script src="/js/services/tags.js"></script>
+    <script src="/js/services/shop.js"></script>
   </body>
 </html>

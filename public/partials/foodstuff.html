@@ -41,16 +41,16 @@
       <!-- custom, user tags -->
       <div class="input-group tag-buttons">
         <ul>
-          <li ng-repeat="tag in userTags">
-            <button ng-click='addTagToNewFoodstuff(tag.name)' class="btn btn-xs btn-{{tag.color || 'default'}}">
-              {{tag.name}}
+          <li ng-repeat="t in tags">
+            <button ng-click='addTagToNewList(t.name)' style="background: {{t.color}}">
+              {{t.name}}
             </button>
           </li>
         </ul>
       </div>
 
       <div class="input-group">
-        <button class="btn btn-primary" ng-click="addFs(newFs)">Add Foodstuff</button>
+        <button class="btn btn-primary" ng-click="add(newFs); newFs={}">Add Foodstuff</button>
       </div>
     </div>
 
@@ -68,6 +68,11 @@
        />
     </div>
 
+    <!-- if the user has no foodstuffs, show a warning -->
+    <div class="panel-body" ng-hide="foodstuffs.length">
+      No Foodstuffs. Add one above!
+    </div>
+
     <!-- loading icon -->
     <span ng-hide="isData" class="glyphicon glyphicon-refresh spinning loading"></span>
 
@@ -81,10 +86,24 @@
         >
         {{l.name}} <small>{{l.price | currency}}</small>
 
+        <!-- same or similar item deals -->
+        <div class="item-deals">
+          <a
+            target="_blank"
+            ng-repeat="d in findDeals(l.name)"
+            href="{{d.url}}"
+            class="text-muted"
+          >
+            <span class="deal-shop">{{d.shop}}</span>
+            <span class="deal-price">{{d.price}}</span>
+            <span class="deal-name">{{d.name}}</span>
+          </a>
+        </div>
+
         <!-- delete button -->
         <button
           class="btn btn-danger btn-xs pull-right"
-          ng-click="delFs(l)"
+          ng-click="remove(l)"
           >Delete
         </button>
 
@@ -123,7 +142,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="modifyFs(l, pretags)">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="update(l, pretags)">Save</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

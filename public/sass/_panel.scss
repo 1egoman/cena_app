@@ -10,6 +10,38 @@
     padding: 20px;
   }
 
+  // a panel that can adhere to columns
+  &.sized {
+    width: auto;
+    padding: 0px;
+
+    .panel-body {
+      padding-top: 0px;
+    }
+
+    &.size-lg {
+      @include make-xs-column(12);
+      @include make-sm-column(12);
+      @include make-md-column(8);
+    }
+
+    &.size-md {
+      @include make-xs-column(12);
+      @include make-sm-column(12);
+      @include make-md-column(6);
+    }
+
+    &.size-sm {
+      @include make-xs-column(6);
+      @include make-sm-column(6);
+      @include make-md-column(4);
+    }
+  }
+
+  &.panel-heading {
+    border-radius: 0px;
+  }
+
 }
 
 .search-box {

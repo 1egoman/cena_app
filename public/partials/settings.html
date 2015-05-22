@@ -1,0 +1,82 @@
+<div class="settings container">
+
+  <!-- tags -->
+  <section class="tag-stuff" ng-controller="TagsController">
+
+    <!-- tag viewer -->
+    <div class="panel sized size-md">
+      <div class="panel-heading">Tags</div>
+      <div class="panel-body">
+
+        <!-- tag list -->
+        <div class="input-group tag-buttons">
+          <ul>
+            <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
+              <button style="background: {{t.color}}">
+                {{t.name}}
+                <span
+                  class="x"
+                  ng-click="remove(t)"
+                  ng-show="t.name.indexOf('shop-') === -1"
+                >x</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- new tag input -->
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="New Tag"
+            class="line-box"
+            ng-model="tagName"
+            style="width: 300px;"
+            placeholder="Tag Name"
+           />
+          <select
+            ng-model="tagColor"
+            class="line-box"
+            style="width: 100px;"
+          >
+            <option value="" default selected="selected">Color</option>
+            <option value="#c34a6b">red</option>
+            <option value="#4a7bc3">blue</option>
+            <option value="#8bc34a">green</option>
+            <option value="#c3bb4a">yellow</option>
+            <option value="#D69951">orange</option>
+            <option value="#4ac3af">teal</option>
+            <option value="#B88346">brown</option>
+          </select>
+          <button class="btn btn-primary" ng-click="add(tagName, tagColor); tagName=''">Add</button>
+
+          <small class="muted">
+            <br/><br/>
+            Type a new tag above, and then press add. Tags should ideally
+            be dasherized <code>like-this</code>.
+          </small>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- shop viewer, which lets you add shop tags -->
+    <div class="panel" ng-controller="ShopsController">
+      <div class="panel-heading">Shops</div>
+      <div class="panel-body">
+        <ul>
+          <li
+            ng-repeat="shop in shops"
+            ng-click="selectShop(shop, !shop.enabled, add, remove)"
+            class="cursor-pointer"
+          >
+            <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
+            <span ng-hide="shop.enabled" class="text-danger">x</span>
+            {{shop.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+</div>

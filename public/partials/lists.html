@@ -13,6 +13,13 @@
   />
   <br/>
 
+  <!-- if the user has no lists, show a warning -->
+  <div class="panel" ng-hide="DispLists.length">
+    <div class="panel-body">
+      No Lists.
+    </div>
+  </div>
+
   <!-- loading icon -->
   <span ng-hide="isData" class="glyphicon glyphicon-refresh spinning loading"></span>
 
@@ -30,7 +37,7 @@
       <!-- delete button -->
       <button
         class="btn btn-danger btn-xs pull-right"
-        ng-click="delList(l)"
+        ng-click="remove(l)"
         ng-hide="l.users.indexOf(username) === -1"
         >Delete
       </button>
@@ -40,13 +47,13 @@
         class="btn btn-primary btn-xs pull-right"
         style="margin-right: 6px;"
         data-toggle="modal"
-        data-target="#accessModal-{{l.name.split(' ').join('-')}}"
+        data-target="#accessModal-{{safeClassName(l.name)}}"
         ng-hide="l.users.indexOf(username) === -1"
         >Access...
       </button>
 
       <!-- access modal -->
-      <div class="modal fade accessModal" id="accessModal-{{l.name.split(' ').join('-')}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade accessModal" id="accessModal-{{safeClassName(l.name)}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -102,7 +109,7 @@
         placeholder="Recipe Description (Supports Markdown)"
         class="line-box blue-focus"
         ng-model="l.desc"
-        ng-change="updateList(l)"
+        ng-change="update(l)"
         ng-hide="l.users.indexOf(username) === -1"
       ></textarea>
 
@@ -140,13 +147,13 @@
             <span
               class="glyphicon glyphicon-unchecked disabled"
               style="margin-right: 10px; cursor: pointer;"
-              ng-click="cnt.checked = true; updateList(l);"
+              ng-click="cnt.checked = true; update(l);"
               ng-hide="cnt.checked">
             </span>
             <span
               class="glyphicon glyphicon-check text-primary"
               style="margin-right: 10px; cursor: pointer;"
-              ng-click="cnt.checked = false; updateList(l);"
+              ng-click="cnt.checked = false; update(l);"
               ng-show="cnt.checked">
             </span>
           </span>
@@ -161,13 +168,13 @@
             <span
               class="glyphicon glyphicon-unchecked disabled"
               style="margin-right: 10px; cursor: pointer;"
-              ng-click="cnt.checked = true; updateList(l);"
+              ng-click="cnt.checked = true; update(l);"
               ng-hide="cnt.checked">
             </span>
             <span
               class="glyphicon glyphicon-check text-primary"
               style="margin-right: 10px; cursor: pointer;"
-              ng-click="cnt.checked = false; updateList(l);"
+              ng-click="cnt.checked = false; update(l);"
               ng-show="cnt.checked">
             </span>
           </span>
@@ -180,7 +187,7 @@
           <!-- delete button -->
           <button
             class="btn btn-danger btn-xs pull-right"
-            ng-click="delFromList(l, cnt.name)"
+            ng-click="removeFromList(l, cnt.name)"
             ng-disabled="l.users.indexOf(username) === -1"
             >Delete
           </button>
@@ -190,7 +197,7 @@
             type="text"
             class="form-control pull-right form-control-xs price"
             ng-model="cnt.price"
-            ng-change="updateList(l)"
+            ng-change="update(l)"
             placeholder="Price"
             ng-disabled="l.users.indexOf(username) === -1"
           />
@@ -202,7 +209,7 @@
             type="number"
             class="form-control pull-right form-control-xs quantity"
             ng-model="cnt.amt"
-            ng-change="updateList(l)"
+            ng-change="update(l)"
             placeholder="Quantity"
             ng-disabled="l.users.indexOf(username) === -1"
            />
@@ -217,14 +224,21 @@
             <button
               type="button"
               class="btn-default"
-              ng-class="{'btn-{{s.color}}': cnt.tags.indexOf(s.name) !== -1}"
+              style="{{
+                cnt.tags.indexOf(s.name) !== -1 &&
+                'color: #FFF; background: '+s.color
+              }}"
               ng-repeat="s in getShops()"
               ng-click="addRemoveShop(l, cnt, s.name)">
               {{s.name.replace("shop-", '')}}
             </button>
 
             <!-- no store -->
-            <button type="button" ng-click="addRemoveShop(l, cnt)">x</button>
+            <button
+              ng-show="getShops().length"
+              type="button"
+              ng-click="addRemoveShop(l, cnt)"
+              >x</button>
           </div>
         </span>
 
@@ -235,7 +249,7 @@
             type="text"
             class="form-control pull-right form-control-xs price"
             disabled
-            ng-value="totalList(cnt).price | currency:''"
+            ng-value="totalList(cnt).subtotal | currency:''"
             placeholder="Price"
             style="margin-right: 53px;"
             ng-disabled="cnt.users.indexOf(username) === -1"
@@ -248,7 +262,7 @@
             type="number"
             class="form-control pull-right form-control-xs quantity"
             ng-model="cnt.amt"
-            ng-change="updateList(l)"
+            ng-change="update(l)"
             placeholder="Quantity"
             ng-disabled="cnt.users.indexOf(username) === -1"
           />
@@ -261,13 +275,13 @@
                 <span
                   class="glyphicon glyphicon-unchecked disabled"
                   style="margin-right: 10px; cursor: pointer;"
-                  ng-click="listitem.checked = true; updateList(l);"
+                  ng-click="listitem.checked = true; update(l);"
                   ng-hide="listitem.checked">
                 </span>
                 <span
                   class="glyphicon glyphicon-check text-primary"
                   style="margin-right: 10px; cursor: pointer;"
-                  ng-click="listitem.checked = false; updateList(l);"
+                  ng-click="listitem.checked = false; update(l);"
                   ng-show="listitem.checked">
                 </span>
               </span>
@@ -276,7 +290,7 @@
 
               <button
                 class="btn btn-danger btn-xs pull-right"
-                ng-click="cnt.contents.splice($index, 1); cnt.contents.length || delFromList(l, cnt.name); updateList(l);"
+                ng-click="cnt.contents.splice($index, 1); cnt.contents.length || removeFromList(l, cnt.name); update(l);"
                 ng-disabled="l.users.indexOf(username) === -1"
                 >Delete
               </button>
@@ -287,9 +301,15 @@
         </span>
 
       </li>
+
+      <!-- list totals -->
       <li class="list-group-item clearfix">
+        {{_totals=totalList(l); ""}}
         <span class="pull-right">
-          Subtotal: {{totalList(l).price | currency}}
+          Subtotal: {{_totals.subtotal | currency}}
+        </span>
+        <span class="pull-right small" style="margin-right: 10px;">
+          Total: {{_totals.price | currency}} @ {{_totals.tax * 100}}%
         </span>
       </li>
     </ul>
