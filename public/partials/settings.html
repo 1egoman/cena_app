@@ -14,7 +14,11 @@
             <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
               <button style="background: {{t.color}}">
                 {{t.name}}
-                <span class="x" ng-click="remove(t)">x</span>
+                <span
+                  class="x"
+                  ng-click="remove(t)"
+                  ng-show="t.name.indexOf('shop-') === -1"
+                >x</span>
               </button>
             </li>
           </ul>
@@ -64,9 +68,10 @@
           <li
             ng-repeat="shop in shops"
             ng-click="selectShop(shop, !shop.enabled, add, remove)"
+            class="cursor-pointer"
           >
-            <span ng-show="shop.enabled">x</span>
-            <span ng-hide="shop.enabled">&nbsp;</span>
+            <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
+            <span ng-hide="shop.enabled" class="text-danger">x</span>
             {{shop.name}}
           </li>
         </ul>
