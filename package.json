@@ -7,7 +7,7 @@
   "bugs": "https://github.com/1egoman/cena_app/issues",
   "author": {
     "name": "Ryan Gaus",
-    "email": "rsg1egomaN@gmail.com"
+    "email": "rsg1egoman@gmail.com"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "bower": "^1.4.1",
     "chai": "~1.7.2",
+    "grunt-banner": "^0.4.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-coffee": "~0.7.0",
     "grunt-contrib-jshint": "~0.6.0",

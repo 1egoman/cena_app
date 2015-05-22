@@ -106,7 +106,13 @@ ul.list-group .list-group-item {
       list-style-type: none;
       display: inline;
       button {
+        @extend .btn;
+        @extend .btn-xs;
         margin: 2px 0px;
+        color: #FFF;
+        &:hover {
+          color: #FFF;
+        }
       }
     }
   }
@@ -197,7 +203,19 @@ span.checkboxes { display: none; }
 }
 
 // a recipe
-.list-recipe { @extend .panel-info; }
+.list-recipe {
+
+  .panel-heading {
+    background-color: #B0CCF5;
+    border-radius: 0px;
+    color: #31708f;
+
+    .modal {
+      color: $text-color;
+    }
+  }
+
+}
 
 // gluten free
 .panel-heading .list-no-gluten::before {

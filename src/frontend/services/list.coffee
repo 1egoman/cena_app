@@ -1,35 +1,14 @@
+###
+ * cena_auth
+ * https://github.com/1egoman/cena_app
+ *
+ * Copyright (c) 2015 Ryan Gaus
+ * Licensed under the MIT license.
+###
+'use strict';
+
 # list factory
-@app.factory 'ListService', ($http) ->
-  get: (cb) ->
-    # see if we are trying to get lists for the current user or another
-    user = _.last(location.pathname.split('/')).replace('/', '') or ''
-    $http(
-      method: 'get'
-      url: '/lists/' + user).success (data) ->
-      cb and cb(data.data)
-      return
-    return
-  add: (list, cb) ->
-    $http(
-      method: 'post'
-      url: '/lists'
-      data: angular.toJson(list)).success (data) ->
-      cb and cb(data)
-      return
-    return
-  remove: (list, cb) ->
-    $http(
-      method: 'delete'
-      url: '/lists/' + list.name
-      data: angular.toJson(list)).success (data) ->
-      cb and cb(data)
-      return
-    return
-  update: (list, cb) ->
-    $http(
-      method: 'put'
-      url: '/lists/' + list.name
-      data: angular.toJson(list)).success (data) ->
-      cb and cb(data)
-      return
-    return
+@app.factory 'List', ($http, $resource) ->
+  $resource "/lists/:id", id: '@_id',
+    update:
+      method: "put"

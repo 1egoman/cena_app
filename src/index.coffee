@@ -45,9 +45,8 @@ app.use require("express-static") path.join(__dirname, '../public')
 require("./auth_setup") app
 
 # set up main app routes
-require("./routes/foodandlists") app
-require("./routes/auth") app
-require("./routes/shops") app
+require("./routes") app
+
 
 app.get "/auth", app.protected(), (req, res) ->
   res.send "yay"

@@ -1,27 +1,29 @@
 # home controller
-@app.controller 'ShopsController', ($scope, TagService) ->
+@app.controller 'ShopsController', ($scope, Tag) ->
   root = $scope
 
+  # Hardcoded shops
+  # TODO Pipe this into the api...
   root.shops = [
     name: "Aldi"
     tag:
       name: "shop-aldi"
-      color: "danger"
-    enabled: true
+      color: "#001E78"
+    enabled: false
   ,
     name: "Wegmans"
     tag:
       name: "shop-weg"
-      color: "danger"
+      color: "#459940"
     enabled: false
   ]
 
   # select a shop, and set it to be active / inactive
-  root.selectShop = (shop, enabled=true) ->
+  root.selectShop = (shop, enabled=true, add, remove) ->
     shop.enabled = enabled
 
     # add the tag / remove the corresponding tag
     if enabled
-      TagService.add shop.tag.name, shop.tag.color
+      add shop.tag.name, shop.tag.color
     else
-      TagService.remove shop.tag
+      remove shop.tag

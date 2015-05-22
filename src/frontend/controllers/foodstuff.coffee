@@ -1,103 +1,103 @@
+###
+ * cena_auth
+ * https://github.com/1egoman/cena_app
+ *
+ * Copyright (c) 2015 Ryan Gaus
+ * Licensed under the MIT license.
+###
+'use strict';
 
 # foodstuff controller
-@app.controller 'FsController', ($scope, $routeParams, FoodStuffService, ShopService, PrefsService, $rootScope, $modal) ->
+@app.controller 'FsController', ($scope, $routeParams, FoodStuff, ShopService, Tag, $rootScope, $modal) ->
   root = $scope
   root.isData = false
+
+  # get all tags
+  Tag.query (tags) ->
+    root.tags = tags
+
   # deal storage
   root.deals = []
+
   # place to store incoming list data
   root.newFs = {}
+
   # foodstuff drawer
   root.foodstuffhidden = true
-  FoodStuffService.get (all) ->
+
+  # get all foodstuffs, initially...
+  FoodStuff.query (all) ->
+    root.isData = true # no refresh spinner
     root.foodstuffs = all
-    root.isData = true
-    return
-  # add new list
 
-  root.addFs = (fs) ->
-    # tags
-    fs.tags = fs.tags or fs.pretags.split(' ')
+  # add new foodstuff
+  root.add = (fs) ->
+    # format tags correctly
+    fs.tags = fs.tags or (fs.pretags or "").split(' ')
+
     # make sure $ amount doesn't start with a $
-    if fs.price[0] == '$'
-      fs.price = fs.price.substr(1)
-    FoodStuffService.add fs, (data) ->
-      # update all foodstuff instances
-      FoodStuffService.get (all) ->
-        root.newFs = {}
-        $rootScope.$emit 'fsUpdate', all
-        return
-      return
-    return
+    fs.price = fs.price.substr(1) if fs.price[0] is '$'
 
-  # add new list
+    # add and push item to backend resource
+    foodstuff = new FoodStuff fs
+    foodstuff.$save ->
+      root.foodstuffs.push fs
 
-  root.delFs = (fs) ->
-    FoodStuffService.remove { name: fs.name }, (data) ->
-      # update all foodstuff instances
-      FoodStuffService.get (all) ->
-        $rootScope.$emit 'fsUpdate', all
-        return
-      return
-    return
+  # delete a foodstuff
+  root.remove = (fs) ->
+    FoodStuff.remove _id: fs._id, ->
+      root.foodstuffs = _.without root.foodstuffs, fs
 
-  # update a foodstuff price / tags
-
-  root.modifyFs = (list, pretags) ->
-    list.tags = pretags.split(' ')
+  # update a foodstuff price / tags / other attribute
+  root.update = (list, pretags="") ->
     # format tags
-    root.updateFs list
+    list.tags = pretags.split ' ' if pretags.length
+
     # update list on backend
-    $('#edit-foodstuff-' + list._id).modal 'hide'
-    # close modal
-    return
+    FoodStuff.update list, ->
+      # close modal
+      $("#edit-foodstuff-#{list._id}").modal 'hide'
 
-  # force a list update
-
-  root.updateFs = (list) ->
-    FoodStuffService.update list
-    return
-
-  # update all list instances
-  $rootScope.$on 'fsUpdate', (status, data) ->
-    root.foodstuffs = data
-    return
   # add the tag, and delimit it with spaces
-
   root.addTagToNewFoodstuff = (tag) ->
     root.newFs.pretags = (root.newFs.pretags or '') + ' ' + tag
     root.newFs.pretags = root.newFs.pretags.trim()
     $('input#fs-tags').focus()
-    return
+    true
 
   # list fuzzy searching
-
   root.matchesSearchString = (list, filter) ->
+
     # if there's no filter, return true
     if !filter
       return true
+
     # make filter lowercase
     filter = filter.toLowerCase()
+
     # create a corpus of the important parts of each list item
-    corpus = _.compact(_.map([
+    corpus = _.compact _.map([
       'name'
       'desc'
       'tags'
     ], (key) ->
       JSON.stringify list[key]
-    ).join(' ').toLowerCase().split(/[ ,\[\]"-]/gi))
+    ).join(' ').toLowerCase().split /[ ,\[\]"-]/gi
+
     # how many matching words are there between the corpus
     # and the filter string?
     score = _.intersection(corpus, filter.split(' ')).length
-    # console.log(list.name, score);
-    # console.log(corpus, filter.split(' '))
     score > 0
 
-  # combine all shop deals into one master array
 
+  #########
+  # Deals #
+  #########
+
+  # combine all shop deals into one master array
   root.getDeals = ->
     # get all shop tags
-    tags = _.filter(PrefsService.tags, (t) ->
+    tags = _.filter(root.tags, (t) ->
       t.name.indexOf('shop-') != -1
     )
     _.each tags, (t) ->
@@ -109,14 +109,9 @@
           )
           root.deals = root.deals.concat(dealsToAdd)
         console.log root.deals
-        return
-      return
-    return
 
   root.getDeals()
 
   root.findDeals = (name) ->
     _.filter root.deals, (d) ->
       d.relatesTo.indexOf(name) != -1
-
-  return
