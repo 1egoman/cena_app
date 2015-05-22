@@ -1,16 +1,19 @@
-# list controller 
+# list controller
 @app.controller 'ListController', ($scope, $routeParams, ListService, FoodStuffService, PrefsService, $rootScope, $location) ->
   root = $scope
   root.isData = false
+
   # get all the tags that have been set in user preferences
   PrefsService.getTags (tags) ->
     root.userTags = tags
-    return
+
   # place to store incoming list data
   root.newList = pretags: $routeParams.type or ''
   root.printableList = {}
+
   # search string for list
   root.listSearchString = ''
+
   ListService.get (all) ->
     root.lists = all
     root.isData = true
@@ -21,6 +24,7 @@
     # if we got nothing, display all
     if root.DispLists.length == 0
       root.DispLists = all
+
     # next, the foodstuffs
     # root.foodstuffs = [
     #   {
@@ -41,9 +45,8 @@
     # ];
     FoodStuffService.get (all) ->
       root.foodstuffs = all
-      return
+
     root.doPrintableList()
-    return
   # return all lists that have the specified tag included
 
   root.getListsByTag = (lists, tag) ->

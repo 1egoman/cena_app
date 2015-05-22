@@ -1,5 +1,5 @@
 # tags service
-app.factory "TagService", ($http) ->
+@app.factory "TagService", ($http) ->
 
   callOnChange: []
   cache: []
@@ -13,6 +13,7 @@ app.factory "TagService", ($http) ->
     $http
       method: "get"
       url: "/settings/tags"
+      cache: true
     .success (data) =>
       @cache = data.tags
 
@@ -24,6 +25,7 @@ app.factory "TagService", ($http) ->
     $http
       method: "post"
       url: "/settings/tag"
+      cache: true
       data:
         name: name
         color: color
@@ -40,6 +42,7 @@ app.factory "TagService", ($http) ->
     $http
       method: "delete"
       url: "/settings/tag/#{t.name}"
+      cache: true
     .success (data) =>
       # remove all instances from cache
       @cache = _.without.apply(_, [@cache].concat _.where(@cache, t))
