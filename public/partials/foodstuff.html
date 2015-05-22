@@ -68,6 +68,11 @@
        />
     </div>
 
+    <!-- if the user has no foodstuffs, show a warning -->
+    <div class="panel-body" ng-hide="foodstuffs.length">
+      No Foodstuffs. Add one above!
+    </div>
+
     <!-- loading icon -->
     <span ng-hide="isData" class="glyphicon glyphicon-refresh spinning loading"></span>
 
