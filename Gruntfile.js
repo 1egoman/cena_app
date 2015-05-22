@@ -11,7 +11,8 @@ module.exports = function (grunt) {
     dist: 'dist',
     src: 'src',
     distTest: 'test/dist',
-    srcTest: 'test/src'
+    srcTest: 'test/src',
+    pkg: grunt.file.readJSON('package.json')
   };
 
   // Project configuration.
@@ -123,7 +124,26 @@ module.exports = function (grunt) {
         }
       }
     },
-  });
+
+    usebanner: {
+      dist: {
+        options: {
+          position: 'top',
+          banner: ["/*",
+                " * cena_auth at version <%= config.pkg.version %>",
+                " * <%= config.pkg.repository.url %>",
+                " *",
+                " * Copyright (c) 2015 Ryan Gaus",
+                " * Licensed under the MIT license.",
+                "*/"].join("\n"),
+          linebreak: true
+        },
+        files: {
+          src: ['dist/**/*.js']
+        }
+      }
+    }
+});
 
   grunt.registerTask('coverageBackend', 'Test backend files as well as code coverage.', function () {
     var done = this.async();
@@ -167,14 +187,14 @@ module.exports = function (grunt) {
   grunt.registerTask('bower_install', 'install frontend dependencies', function() {
     var exec = require('child_process').exec;
     var cb = this.async();
-    exec('./node_modules/bower/bin/bower install', {}, function(err, stdout, stderr) {
+    exec('./node_modules/bower/bin/bower install', {}, function(err, stdout) {
       console.log(stdout);
       cb();
     });
   });
 
   // Default task.
-  grunt.registerTask('default', ['coffee', 'jshint']);
+  grunt.registerTask('default', ['coffee', 'jshint', 'usebanner']);
 
   grunt.registerTask('test', [
     'clean',
@@ -193,4 +213,6 @@ module.exports = function (grunt) {
     'coffee',
     'bower_install',
   ]);
+
+  grunt.registerTask('banner', ['usebanner']);
 };
