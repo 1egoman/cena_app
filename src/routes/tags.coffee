@@ -8,16 +8,10 @@
 'use strict';
 
 User = require '../models/user'
+_ = require "underscore"
 
 # tag CR D operations
 module.exports = (app) ->
-
-  # all possible tag colors
-  tagColors = [
-    "danger"
-    "primary"
-    "success"
-  ]
 
   # add new tag
   app.post '/settings/tags/:name?', (req, res) ->
@@ -34,9 +28,8 @@ module.exports = (app) ->
                 req.body.color
               else
                 # generate random color to match with this item
-                i = Math.floor(Math.random() * (tagColors.length+1))
-                i = 0 if i > tagColors.length-1
-                tagColors[i]
+                color = _.random 0, Math.pow(256, 3)
+                color.toString 16
 
       , {}, (err, num, raw) ->
         if err

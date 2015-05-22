@@ -41,9 +41,9 @@
       <!-- custom, user tags -->
       <div class="input-group tag-buttons">
         <ul>
-          <li ng-repeat="tag in userTags">
-            <button ng-click='addTagToNewFoodstuff(tag.name)' class="btn btn-xs btn-{{tag.color || 'default'}}">
-              {{tag.name}}
+          <li ng-repeat="t in tags">
+            <button ng-click='addTagToNewList(t.name)' style="background: {{t.color}}">
+              {{t.name}}
             </button>
           </li>
         </ul>

@@ -8,9 +8,13 @@
 'use strict';
 
 # foodstuff controller
-@app.controller 'FsController', ($scope, $routeParams, FoodStuff, ShopService, PrefsService, $rootScope, $modal) ->
+@app.controller 'FsController', ($scope, $routeParams, FoodStuff, ShopService, Tag, $rootScope, $modal) ->
   root = $scope
   root.isData = false
+
+  # get all tags
+  Tag.query (tags) ->
+    root.tags = tags
 
   # deal storage
   root.deals = []
@@ -93,7 +97,7 @@
   # combine all shop deals into one master array
   root.getDeals = ->
     # get all shop tags
-    tags = _.filter(PrefsService.tags, (t) ->
+    tags = _.filter(root.tags, (t) ->
       t.name.indexOf('shop-') != -1
     )
     _.each tags, (t) ->

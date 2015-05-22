@@ -8,13 +8,13 @@
 'use strict';
 
 # list controller
-@app.controller 'ListController', ($scope, $routeParams, List, FoodStuff, PrefsService, $rootScope, $location) ->
+@app.controller 'ListController', ($scope, $routeParams, List, FoodStuff, Tag, $rootScope, $location) ->
   root = $scope
   root.isData = false
 
-  # get all the tags that have been set in user preferences
-  PrefsService.getTags (tags) ->
-    root.userTags = tags
+  # get all tags
+  Tag.query (tags) ->
+    root.tags = tags
 
   # place to store incoming list data
   root.newList = pretags: $routeParams.type or ''
@@ -219,7 +219,7 @@
 
   # get all possible "shop" tags
   root.getShops = ->
-    _.filter root.userTags, (t) ->
+    _.filter root.tags, (t) ->
       t.name.indexOf('shop-') is 0
 
   # add/delete shops for a specified list and item

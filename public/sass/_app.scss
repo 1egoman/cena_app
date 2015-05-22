@@ -106,7 +106,13 @@ ul.list-group .list-group-item {
       list-style-type: none;
       display: inline;
       button {
+        @extend .btn;
+        @extend .btn-xs;
         margin: 2px 0px;
+        color: #FFF;
+        &:hover {
+          color: #FFF;
+        }
       }
     }
   }

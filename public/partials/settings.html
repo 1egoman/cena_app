@@ -12,7 +12,7 @@
         <div class="input-group tag-buttons">
           <ul>
             <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
-              <button class="btn btn-xs btn-{{t.color || 'default'}}">
+              <button style="background: {{t.color}}">
                 {{t.name}}
                 <span class="x" ng-click="remove(t)">x</span>
               </button>
@@ -36,9 +36,13 @@
             style="width: 100px;"
           >
             <option value="" default selected="selected">Color</option>
-            <option value="danger">red</option>
-            <option value="primary">blue</option>
-            <option value="success">green</option>
+            <option value="#c34a6b">red</option>
+            <option value="#4a7bc3">blue</option>
+            <option value="#8bc34a">green</option>
+            <option value="#c3bb4a">yellow</option>
+            <option value="#c38b4a">orange</option>
+            <option value="#4ac3af">teal</option>
+            <option value="#c38b4a">orange</option>
           </select>
           <button class="btn btn-primary" ng-click="add(tagName, tagColor); tagName=''">Add</button>
 
