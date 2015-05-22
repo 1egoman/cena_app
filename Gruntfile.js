@@ -31,6 +31,16 @@ module.exports = function (grunt) {
           }
         ]
       },
+      css: {
+        files: [
+          {
+            dot: true,
+            src: [
+              'public/sass/index.css'
+            ]
+          }
+        ]
+      }
     },
     coffee: {
       dist: {
@@ -85,6 +95,10 @@ module.exports = function (grunt) {
       frontend: {
         files: 'src/frontend/**/*.coffee',
         tasks: ['coffee:frontend']
+      },
+      css: {
+        files: 'public/sass/**/*.scss',
+        tasks: ['clean:css']
       }
     },
     simplemocha: {
