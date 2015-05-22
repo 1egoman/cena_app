@@ -14,7 +14,7 @@
             <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
               <button class="btn btn-xs btn-{{t.color || 'default'}}">
                 {{t.name}}
-                <span class="x" ng-click="removeTag(t)">x</span>
+                <span class="x" ng-click="remove(t)">x</span>
               </button>
             </li>
           </ul>
@@ -40,7 +40,7 @@
             <option value="primary">blue</option>
             <option value="success">green</option>
           </select>
-          <button class="btn btn-primary" ng-click="addTag(tagName, tagColor); tagName=''">Add</button>
+          <button class="btn btn-primary" ng-click="add(tagName, tagColor); tagName=''">Add</button>
 
           <small class="muted">
             <br/><br/>
@@ -57,7 +57,10 @@
       <div class="panel-heading">Shops</div>
       <div class="panel-body">
         <ul>
-          <li ng-repeat="shop in shops" ng-click="selectShop(shop, !shop.enabled)">
+          <li
+            ng-repeat="shop in shops"
+            ng-click="selectShop(shop, !shop.enabled, add, remove)"
+          >
             <span ng-show="shop.enabled">x</span>
             <span ng-hide="shop.enabled">&nbsp;</span>
             {{shop.name}}

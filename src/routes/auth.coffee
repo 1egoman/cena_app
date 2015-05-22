@@ -41,39 +41,37 @@ module.exports = (app) ->
   ]
 
   # add new tag
-  app.post '/settings/tag',
-    bodyParser.urlencoded(extended: true),
-    (req, res) ->
-      if req.user
-        User.update
-          username: req.user.username
-        ,
-          $push:
-            tags:
-              # update user with new tag
-              name: req.body.name,
-              color: do ->
-                if req.body.color
-                  req.body.color
-                else
-                  # generate random color to match with this item
-                  i = Math.floor(Math.random() * (tagColors.length+1))
-                  i = 0 if i > tagColors.length-1
-                  tagColors[i]
+  app.post '/settings/tags/:name?', (req, res) ->
+    console.log req.params.name
+    if req.user
+      User.update
+        username: req.user.username
+      ,
+        $push:
+          tags:
+            # update user with new tag
+            name: req.params.name or req.body.name,
+            color: do ->
+              if req.body.color
+                req.body.color
+              else
+                # generate random color to match with this item
+                i = Math.floor(Math.random() * (tagColors.length+1))
+                i = 0 if i > tagColors.length-1
+                tagColors[i]
 
-        , {}, (err, num, raw) ->
-          if err
-            res.send err: err.toString()
-          else
-            res.send
-              status: 'ok'
-              num: num
-      else
-        res.send error: "User isn't logged in."
+      , {}, (err, num, raw) ->
+        if err
+          res.send err: err.toString()
+        else
+          res.send
+            status: 'ok'
+            num: num
+    else
+      res.send error: "User isn't logged in."
 
   # delete tag
-  app.delete '/settings/tag/:name?', (req, res) ->
-    console.log req.params.name
+  app.delete '/settings/tags/:name?', (req, res) ->
     if req.user
       User.update
         username: req.user.username
@@ -92,15 +90,14 @@ module.exports = (app) ->
       res.send error: "User isn't logged in."
 
   # get tag list
-  app.get '/settings/tags',
-    bodyParser.urlencoded(extended: true),
-    (req, res) ->
-      if req.user
-        User.findOne
-          username: req.user.username
-        , (err, user) ->
-          if err
-            res.send err: err.toString()
-          else
-            res.send
-              tags: user.tags
+  app.get '/settings/tags', (req, res) ->
+    if req.user
+      User.findOne
+        username: req.user.username
+      , (err, user) ->
+        if err
+          res.send err: err.toString()
+        else
+          res.send user.tags
+    else
+      res.send error: "User isn't logged in."

@@ -1,28 +1,28 @@
 # settings controller
-@app.controller "TagsController", ($scope, $http, TagService) ->
+@app.controller "TagsController", ($scope, $http, Tag) ->
   root = $scope
 
   # user list
   root.tags = []
 
-  # new tag added or deleted
-  TagService.onChange (tags) ->
-    root.tags = tags
-
   # get all tags
-  root.getTags = ->
-    TagService.get (err, tags) ->
+  root.get = ->
+    Tag.query (tags) ->
       root.tags = tags
-  root.getTags()
+  root.get()
 
   # add a new tag
-  root.addTag = (name, color) ->
-    TagService.add name, color, (err, tags) ->
+  root.add = (name, color) ->
+    tag = new Tag
+      name: name
+      color: color
+
+    tag.$save (err) ->
       root.tags.push
         name: name
         color: color
 
   # remove a tag
-  root.removeTag = (t) ->
-    TagService.remove t, (err) ->
-      root.tags = _.without root.tags, t
+  root.remove = (t) ->
+    Tag.remove t, (err) ->
+      root.tags = _.without.apply(_, [root.tags].concat _.where(root.tags, t))
