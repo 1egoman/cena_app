@@ -8,13 +8,13 @@
     name: "Aldi"
     tag:
       name: "shop-aldi"
-      color: "danger"
+      color: "#001E78"
     enabled: false
   ,
     name: "Wegmans"
     tag:
       name: "shop-weg"
-      color: "danger"
+      color: "#459940"
     enabled: false
   ]
 
