@@ -36,6 +36,12 @@ createCRUD = (app, Model, name) ->
   app.post "/#{pl}", makeSureLoggedIn, (req, res) ->
     data = req.body
     data.users = [req.user.username]
+
+    # make sure name doesn't have slashes in it, otherwise weird routing things
+    # will hapen on the frontend.
+    data.name = (data.name or "untitled").replace /\//g, '-'
+
+    # create and save
     n = new Model data
     n.save (err) ->
       if err
