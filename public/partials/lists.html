@@ -12,13 +12,13 @@
     placeholder="Search Lists"
   />
   <br/>
-  
+
   <!-- if the user has no lists, show a warning -->
   <div class="panel" ng-hide="DispLists.length">
     <div class="panel-body">
       No Lists.
     </div>
-  </div> 
+  </div>
 
   <!-- loading icon -->
   <span ng-hide="isData" class="glyphicon glyphicon-refresh spinning loading"></span>
@@ -187,7 +187,7 @@
           <!-- delete button -->
           <button
             class="btn btn-danger btn-xs pull-right"
-            ng-click="delFromList(l, cnt.name)"
+            ng-click="removeFromList(l, cnt.name)"
             ng-disabled="l.users.indexOf(username) === -1"
             >Delete
           </button>
@@ -242,7 +242,7 @@
             type="text"
             class="form-control pull-right form-control-xs price"
             disabled
-            ng-value="totalList(cnt).price | currency:''"
+            ng-value="totalList(cnt).subtotal | currency:''"
             placeholder="Price"
             style="margin-right: 53px;"
             ng-disabled="cnt.users.indexOf(username) === -1"
@@ -283,7 +283,7 @@
 
               <button
                 class="btn btn-danger btn-xs pull-right"
-                ng-click="cnt.contents.splice($index, 1); cnt.contents.length || delFromList(l, cnt.name); updateList(l);"
+                ng-click="cnt.contents.splice($index, 1); cnt.contents.length || removeFromList(l, cnt.name); updateList(l);"
                 ng-disabled="l.users.indexOf(username) === -1"
                 >Delete
               </button>
@@ -294,9 +294,15 @@
         </span>
 
       </li>
+
+      <!-- list totals -->
       <li class="list-group-item clearfix">
+        {{_totals=totalList(l); ""}}
         <span class="pull-right">
-          Subtotal: {{totalList(l).price | currency}}
+          Subtotal: {{_totals.subtotal | currency}}
+        </span>
+        <span class="pull-right small" style="margin-right: 10px;">
+          Total: {{_totals.price | currency}} @ {{_totals.tax * 100}}%
         </span>
       </li>
     </ul>
