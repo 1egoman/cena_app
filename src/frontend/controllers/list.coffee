@@ -110,6 +110,10 @@
       root.lists = _.without.apply(_, [root.lists].concat _.where(root.lists, list))
       root.DispLists = _.without.apply(_, [root.DispLists].concat _.where(root.DispLists, list))
 
+  # update list
+  root.update = (list) ->
+    List.update list
+
   # add a new item to list
   root.addToList = (list, item) ->
 
