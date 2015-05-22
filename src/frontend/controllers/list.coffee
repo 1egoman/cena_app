@@ -44,29 +44,30 @@
 
   # return all lists that have the specified tag included
   root.getListsByTag = (lists, tag) ->
-    # if tag is set, look for everything with that tag
-    # otherwise, get everthing that isn't a tag
-    out = _.filter(lists, (l) ->
+    # if tag is set, look for everything with that tag (grocery and recipe)
+    # otherwise, get everthing that isn't a tag (other)
+    out = _.filter lists, (l) ->
       if tag
-        l.tags.indexOf(tag) != -1
+        l.tags.indexOf(tag) isnt -1
       else
-        l.tags.indexOf('grocery') == -1 and l.tags.indexOf('recipe') == -1
-    )
+        l.tags.indexOf('grocery') is -1 and l.tags.indexOf('recipe') is -1
+
     # if it's a grocery list, with hopefully a date in the name
-    if tag == 'grocery'
+    if tag is 'grocery'
       # sort all grocery lists
-      out = _.sortBy(out, (n) ->
+      out = _.sortBy out, (n) ->
         # find dates by regex
         dates = n.name.match(/[\d]{1,2}[\.\/-]?[\d]{1,2}[\.\/-]?[\d]{2,4}?/gi)
         if dates and dates.length
+
           # format the regex output into a date,
           # and get the timestamp to compare
           preDate = dates[0].split(/[\.\/-]/gi)
           if preDate.length < 1
             preDate = dates[0].match(/[.]{2}/gi)
-          return new Date(preDate.join('/')).getTime()
-        return
-      ).reverse()
+          new Date(preDate.join('/')).getTime()
+
+      .reverse()
     out
 
   # list fuzzy searching
