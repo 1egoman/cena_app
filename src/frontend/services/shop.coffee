@@ -1,3 +1,12 @@
+###
+ * cena_auth
+ * https://github.com/1egoman/cena_app
+ *
+ * Copyright (c) 2015 Ryan Gaus
+ * Licensed under the MIT license.
+###
+'use strict';
+
 # shop service
 @app.factory 'ShopService', ($http) ->
   cache: {}
