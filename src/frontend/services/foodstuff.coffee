@@ -1,33 +1,14 @@
+###
+ * cena_auth
+ * https://github.com/1egoman/cena_app
+ *
+ * Copyright (c) 2015 Ryan Gaus
+ * Licensed under the MIT license.
+###
+'use strict';
+
 # foodstuff factory
-@app.factory 'FoodStuffService', ($http) ->
-  get: (cb) ->
-    $http(
-      method: 'get'
-      url: '/foodstuffs').success (data) ->
-      cb and cb(data.data)
-      return
-    return
-  add: (list, cb) ->
-    $http(
-      method: 'post'
-      url: '/foodstuffs'
-      data: angular.toJson(list)).success (data) ->
-      cb and cb(data)
-      return
-    return
-  remove: (list, cb) ->
-    $http(
-      method: 'delete'
-      url: '/foodstuffs/' + list.name
-      data: angular.toJson(list)).success (data) ->
-      cb and cb(data)
-      return
-    return
-  update: (list, cb) ->
-    $http(
-      method: 'put'
-      url: '/foodstuffs/' + list.name
-      data: angular.toJson(list)).success (data) ->
-      cb and cb(data)
-      return
-    return
+@app.factory 'FoodStuff', ($http, $resource) ->
+  return $resource "/foodstuffs/:id", id: '@_id',
+    update:
+      method: "put"

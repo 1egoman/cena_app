@@ -1,5 +1,5 @@
 # list controller
-@app.controller 'ListController', ($scope, $routeParams, ListService, FoodStuffService, PrefsService, $rootScope, $location) ->
+@app.controller 'ListController', ($scope, $routeParams, ListService, FoodStuff, PrefsService, $rootScope, $location) ->
   root = $scope
   root.isData = false
 
@@ -43,7 +43,7 @@
     #     tags: ["abc"]
     #   }
     # ];
-    FoodStuffService.get (all) ->
+    FoodStuff.query (all) ->
       root.foodstuffs = all
 
     root.doPrintableList()

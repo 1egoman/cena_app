@@ -12,6 +12,7 @@
     .success (data) ->
       cb and cb data.data
 
+  # add a new list to the logged in user
   add: (list, cb) ->
     $http
       method: 'post'
@@ -21,6 +22,7 @@
     .success (data) ->
       cb and cb data
 
+  # remove a list from the logged in user
   remove: (list, cb) ->
     $http
       method: 'delete'
@@ -30,6 +32,7 @@
     .success (data) ->
       cb and cb data
 
+  # update a list
   update: (list, cb) ->
     $http
       method: 'put'

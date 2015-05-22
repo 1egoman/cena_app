@@ -50,7 +50,7 @@
       </div>
 
       <div class="input-group">
-        <button class="btn btn-primary" ng-click="addFs(newFs)">Add Foodstuff</button>
+        <button class="btn btn-primary" ng-click="add(newFs); newFs={}">Add Foodstuff</button>
       </div>
     </div>
 
@@ -98,7 +98,7 @@
         <!-- delete button -->
         <button
           class="btn btn-danger btn-xs pull-right"
-          ng-click="delFs(l)"
+          ng-click="remove(l)"
           >Delete
         </button>
 
@@ -137,7 +137,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="modifyFs(l, pretags)">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="update(l, pretags)">Save</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

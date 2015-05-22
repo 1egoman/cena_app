@@ -1,6 +1,6 @@
 # models
-List = require '../models/list'
-Foodstuff = require '../models/foodstuff'
+List = require "../models/list"
+Foodstuff = require "../models/foodstuff"
 # create CRUD operations for the model
 
 # auth middleware to make sure a user is logged in
@@ -9,22 +9,31 @@ makeSureLoggedIn = require "./userloggedin"
 
 createCRUD = (app, Model, name) ->
   # plural form
-  pl = name + 's'
+  pl = name + "s"
 
   # get reference to all models that the specified user owns
-  app.get '/' + pl + '/:user?', makeSureLoggedIn, (req, res) ->
+  app.get "/#{pl}", makeSureLoggedIn, (req, res) ->
     Model.find
-      users: req.params.user or req.user.username
+      users: req.query.user or req.user.username
     , (err, models) ->
       if err
         res.send err: err.toString()
       else
-        res.send data: models
-      return
-    return
+        res.send models
+
+  # get reference to one model that matches the query and the specified user owns
+  app.get "/#{pl}/:id?", makeSureLoggedIn, (req, res) ->
+    Model.findOne
+      _id: req.params.id or req.query.id or req.query._id
+      users: req.query.user or req.user.username
+    , (err, model) ->
+      if err
+        res.send err: err.toString()
+      else
+        res.send model
 
   # add new item
-  app.post '/' + pl, makeSureLoggedIn, (req, res) ->
+  app.post "/#{pl}", makeSureLoggedIn, (req, res) ->
     data = req.body
     data.users = [req.user.username]
     n = new Model data
@@ -32,25 +41,26 @@ createCRUD = (app, Model, name) ->
       if err
         res.send err: err.toString()
       else
-        res.send status: 'ok'
+        res.send status: "ok"
       return
     return
 
   # delete item
-  app.delete '/' + pl + '/:name', makeSureLoggedIn, (req, res) ->
+  app.delete "/#{pl}/:id?", makeSureLoggedIn, (req, res) ->
     Model.remove
-      name: req.params.name
-      users: req.user.username
+      _id: req.params.id or req.query.id or req.query._id
+      users: req.query.user or req.user.username
     , (err) ->
       if err
         res.send err: err.toString()
       else
-        res.send status: 'ok'
+        res.send status: "ok"
+
       return
     return
 
   # update item
-  app.put '/' + pl + '/:name', makeSureLoggedIn, (req, res, next) ->
+  app.put "/#{pl}/:id?", makeSureLoggedIn, (req, res, next) ->
 
     # make sure a user hasn't removed their own
     # permisssion to view the list, or remove the "first owner" of the list
@@ -59,14 +69,14 @@ createCRUD = (app, Model, name) ->
       req.user.username in req.body.users
     )
       Model.update
-        name: req.params.name
-        users: req.user.username
+        _id: req.params.id or req.query.id or req.query._id
+        users: req.query.user or req.user.username
       , req.body, {}, (err, num, raw) ->
         if err
           res.send err: err.toString()
         else
           res.send
-            status: 'ok'
+            status: "ok"
             num: num
     else
       next
@@ -75,7 +85,7 @@ createCRUD = (app, Model, name) ->
 
 module.exports = (app) ->
   # create CRUD resource for list
-  createCRUD app, List, 'list'
+  createCRUD app, List, "list"
   # create CRUD resource for foodstuff
-  createCRUD app, Foodstuff, 'foodstuff'
+  createCRUD app, Foodstuff, "foodstuff"
   return
