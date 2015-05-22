@@ -92,7 +92,7 @@
     score > 0
 
   # add new list
-  root.add = (listData) ->
+  root.add = (listData, opts={}) ->
     # format tags correctly
     listData.tags = listData.tags or (listData.pretags or "").split ' '
 
@@ -100,11 +100,15 @@
     list = new List listData
     list.$save ->
       root.lists.push listData
+      $location.url "/lists" if opts.redirect
 
   # delete list
   root.remove = (list) ->
     List.remove _id: list._id, ->
-      root.lists = _.without root.lists, list
+
+      # remove from both the lists, and the current displayed lists as well.
+      root.lists = _.without.apply(_, [root.lists].concat _.where(root.lists, list))
+      root.DispLists = _.without.apply(_, [root.DispLists].concat _.where(root.DispLists, list))
 
   # add a new item to list
   root.addToList = (list, item) ->
