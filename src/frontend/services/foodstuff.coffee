@@ -9,6 +9,6 @@
 
 # foodstuff factory
 @app.factory 'FoodStuff', ($http, $resource) ->
-  return $resource "/foodstuffs/:id", id: '@_id',
+  $resource "/foodstuffs/:id", id: '@_id',
     update:
       method: "put"
