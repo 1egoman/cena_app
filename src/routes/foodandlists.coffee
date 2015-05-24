@@ -7,7 +7,7 @@ Foodstuff = require "../models/foodstuff"
 makeSureLoggedIn = require "./userloggedin"
 
 
-createCRUD = (app, Model, name) ->
+exports.createCRUD = (app, Model, name) ->
   # plural form
   pl = name + "s"
 
@@ -89,9 +89,10 @@ createCRUD = (app, Model, name) ->
         error: "User cannot remove access to their own list, or remove the primary owner of the list."
         status: 403
 
-module.exports = (app) ->
+exports.index = (app) ->
+  
   # create CRUD resource for list
-  createCRUD app, List, "list"
+  exports.createCRUD app, List, "list"
+
   # create CRUD resource for foodstuff
-  createCRUD app, Foodstuff, "foodstuff"
-  return
+  exports.createCRUD app, Foodstuff, "foodstuff"

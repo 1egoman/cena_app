@@ -8,12 +8,15 @@
 'use strict';
 
 # shop service
-@app.factory 'Shops', ($http) ->
-  cache: {}
-  gettingCache: []
+@app.factory 'Shop', ($http, $resource) ->
+  root = $resource "/shops/:id",
+    id: "@_id"
+  
+  root.cache = {}
+  root.gettingCache = []
 
   # get all matching deals for a specified shop and deal combo
-  getMatchesFor: (item, shop, callback) ->
+  root.getMatchesFor = (item, shop, callback) ->
 
     cont = ->
       a = _.filter cache[shop] or [], (i) ->
@@ -30,7 +33,7 @@
 
 
 
-  doCache: (shop, callback) ->
+  root.doCache = (shop, callback) ->
     # so you can't call this function constantly and overlaod the server
     if @gettingCache.indexOf(shop) != -1
       return
@@ -43,3 +46,5 @@
     .success (data) =>
       @cache[shop] = data
       callback and callback data
+
+  root

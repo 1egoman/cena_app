@@ -8,7 +8,7 @@
 'use strict';
 
 # foodstuff controller
-@app.controller 'FsController', ($scope, $routeParams, FoodStuff, Shops, Tag, $rootScope, $modal) ->
+@app.controller 'FsController', ($scope, $routeParams, FoodStuff, Shop, Tag, $rootScope, $modal) ->
   root = $scope
   root.isData = false
 
@@ -103,7 +103,7 @@
 
     # get deals for each specified shop tag
     _.each tags, (t) ->
-      Shops.doCache t.name.slice(5), (d) ->
+      Shop.doCache t.name.slice(5), (d) ->
         if d and d.deals
           dealsToAdd = _.map d.deals, (e) ->
             e.shop = t.name.slice(5)
