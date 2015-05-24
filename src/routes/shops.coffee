@@ -10,14 +10,30 @@ fs = require "fs"
 path = require "path"
 chalk = require "chalk"
 _ = require "underscore"
+async = require "async"
 
 makeSureLoggedIn = require "./userloggedin"
 matchWithItems = require "../scrapers/matchItems"
+
+Shop = require "../models/shop"
 
 # how long are deals good, in seconds?
 dealsExpireAfter = 60 * 60 * 1000; # 1 hour in milliseconds
 
 module.exports = (app) ->
+
+  # get all shops
+  app.get "/shops", makeSureLoggedIn, (req, res) ->
+    Shop.find {}, (err, shops) ->
+      if err
+        res.send error: err
+      else
+        async.map shops, (shop, cb) ->
+          fs.exists path.join(__dirname, "../scrapers", shop.internalName), (exists) ->
+            shop.scraper = exists
+            cb null, shop
+        , (err, shops) ->
+          res.send shops
 
   # shop info
   app.get "/shops/:shop.json", makeSureLoggedIn, (req, res) ->

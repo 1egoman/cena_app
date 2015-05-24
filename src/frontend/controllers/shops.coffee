@@ -22,7 +22,7 @@
       tag:
         name: "shop-m32"
         color: "#63bd4a"
-      enabled: _.filter(tags, (t) -> t.name is "shop-pc").length
+      enabled: _.filter(tags, (t) -> t.name is "shop-m32").length
     ]
 
   # select a shop, and set it to be active / inactive
