@@ -1,6 +1,6 @@
 {
   "name": "cena-auth",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "main": "src/index.coffee",
   "description": "cena authentication",
   "homepage": "https://github.com/1egoman/cena_app",
