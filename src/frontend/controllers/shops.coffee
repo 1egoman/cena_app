@@ -15,13 +15,13 @@
       name: "Wegmans"
       tag:
         name: "shop-weg"
-        color: "#459940"
+        color: "#9b3835"
       enabled: _.filter(tags, (t) -> t.name is "shop-weg").length
     ,
-      name: "Price Chopper"
+      name: "Market 32"
       tag:
-        name: "shop-pc"
-        color: "#EE3A43"
+        name: "shop-m32"
+        color: "#63bd4a"
       enabled: _.filter(tags, (t) -> t.name is "shop-pc").length
     ]
 
