@@ -338,9 +338,10 @@
           <li
             ng-repeat="i in v"
             style="padding-right: 16px;"
+            class="list-{{l.tags.join(' list-')}}"
             ng-class="{'checked': i.checked}"
             >
-            <!-- <span class="checkboxes"> -->
+            <span class="checkboxes">
               <span
                 class="glyphicon glyphicon-unchecked disabled"
                 style="margin-right: 4px; font-size: 14px;"
@@ -351,8 +352,8 @@
                 style="margin-right: 4px; font-size: 14px;"
                 ng-show="i.checked">
               </span>
-            <!-- </span> -->
-            <span class="store-color store-color-{{getShopForList(i).color}}">
+            </span>
+            <span class="store-color store-color-{{getShopForList(i).name}}">
               {{i.name}}
             </span>
             <small>{{i.desc}}</small>&nbsp;
