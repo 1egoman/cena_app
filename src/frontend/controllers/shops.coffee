@@ -15,7 +15,7 @@
       name: "Wegmans"
       tag:
         name: "shop-weg"
-        color: "#459940"
+        color: "#9b3835"
       enabled: _.filter(tags, (t) -> t.name is "shop-weg").length
     ,
       name: "Market 32"
