@@ -16,6 +16,7 @@ makeSureLoggedIn = require "./userloggedin"
 matchWithItems = require "../scrapers/matchItems"
 
 Shop = require "../models/shop"
+{createCRUD} = require "./foodandlists"
 
 # how long are deals good, in seconds?
 dealsExpireAfter = 60 * 60 * 1000; # 1 hour in milliseconds
@@ -35,16 +36,15 @@ module.exports = (app) ->
         , (err, shops) ->
           res.send shops
 
-  # shop info
-  app.get "/shops/:shop.json", makeSureLoggedIn, (req, res) ->
-    try
-      shop = require "../scrapers/"+req.params.shop
-    catch
-      res.send
-        status: "error"
-        message: "No such shop #{req.params.shop}."
-    finally
-      res.send shop.info()
+  # shop info for a specific shop
+  app.get "/shops/:id", makeSureLoggedIn, (req, res) ->
+     Shop.findOne _id: req.params.id, (err, shop) ->
+      if err
+        res.send error: err
+      else
+        fs.exists path.join(__dirname, "../scrapers", shop.internalName), (exists) ->
+          shop.scraper = exists
+          res.send shop
 
   # scraper for a shop's deals
   app.get "/shops/:shop/deals.json", makeSureLoggedIn, (req, res) ->

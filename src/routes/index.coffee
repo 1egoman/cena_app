@@ -9,7 +9,7 @@
 
 # require all routes
 module.exports = (app) ->
-  require("./foodandlists") app
+  require("./foodandlists").index app
   require("./auth") app
   require("./shops") app
   require("./tags") app
