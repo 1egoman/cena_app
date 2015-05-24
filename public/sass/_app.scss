@@ -35,6 +35,7 @@
 span.checkboxes span {
   vertical-align: middle;
   font-size: $font-size-base * 1.2;
+  margin-top: -4px;
 }
 
 // adjust list group height larger on mobile
@@ -146,11 +147,47 @@ ul.list-group .list-group-item {
 
     // color list items depending on store
     .store-color {}
-    .store-color-primary { color: $brand-primary !important; }
-    .store-color-info { color: $brand-info !important; }
-    .store-color-success { color: $brand-success !important; }
-    .store-color-warning { color: $brand-warning !important; }
-    .store-color-danger { color: $brand-danger !important; }
+    .store-color-primary {
+      &, &:before {
+        color: $brand-primary !important;
+      }
+    }
+    .store-color-info {
+      &, &:before {
+        color: $brand-info !important;
+      }
+    }
+    .store-color-success {
+      &, &:before {
+        color: $brand-success !important;
+      }
+    }
+    .store-color-warning {
+      &, &:before {
+        color: $brand-warning !important;
+      }
+    }
+    .store-color-danger {
+      &, &:before {
+        color: $brand-danger !important;
+      }
+    }
+
+    .store-color-shop-aldi {
+      &, &:before {
+        color: #001E78 !important;
+      }
+    }
+    .store-color-shop-pc {
+      &, &:before {
+        color: #EE3A43 !important;
+      }
+    }
+    .store-color-shop-weg {
+      &, &:before {
+        color: #459940 !important;
+      }
+    }
   }
 }
 
@@ -202,7 +239,7 @@ ul.list-group .list-group-item {
 // a grocery list
 span.checkboxes { display: none; }
 .list-grocery span.checkboxes {
-  display: inline;
+  display: inline-block;
 }
 
 // a recipe
