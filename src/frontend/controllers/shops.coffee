@@ -22,7 +22,10 @@
 
     # add the tag / remove the corresponding tag
     if enabled
-      add shop.tag.name, shop.tag.color
+      add
+        name: shop.tag.name
+        color: shop.tag.color
+        pretty: shop.name # display this name on the tag
     else
       remove shop.tag
 

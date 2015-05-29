@@ -23,6 +23,7 @@ module.exports = (app) ->
           tags:
             # update user with new tag
             name: req.params.name or req.body.name,
+            pretty: req.body.pretty
             color: do ->
               if req.body.color
                 req.body.color
