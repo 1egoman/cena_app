@@ -61,31 +61,34 @@
     </div>
 
     <!-- shop viewer, which lets you add shop tags -->
-    <div class="panel" ng-controller="ShopsController">
+    <div class="panel sized size-md" ng-controller="ShopsController">
       <div class="panel-heading">Shops</div>
       <div class="panel-body">
 
         <!-- search box -->
         <input
           type="text"
+          class="line-box blue-focus"
           placeholder="Search Shops"
           ng-model="shopSearchNeedle"
           ng-change="applySearchNeedle(shopSearchNeedle)"
          />
 
-        <!-- list of shops -->
-        <ul>
-          <li
-            ng-repeat="shop in displayShops"
-            ng-click="selectShop(shop, !shop.enabled, add, remove)"
-            class="cursor-pointer"
-          >
-            <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
-            <span ng-hide="shop.enabled" class="text-danger">x</span>
-            {{shop.name}}
-          </li>
-        </ul>
       </div>
+
+      <!-- list of shops -->
+      <ul class="list-group">
+        <li
+          ng-repeat="shop in displayShops"
+          ng-click="selectShop(shop, !shop.enabled, add, remove)"
+          class="cursor-pointer list-group-item"
+        >
+          <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
+          <span ng-hide="shop.enabled" class="text-danger">x</span>
+          {{shop.name}}
+        </li>
+      </ul>
+
     </div>
 
   </section>
