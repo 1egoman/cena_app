@@ -8,7 +8,7 @@
 'use strict';
 
 # list controller
-@app.controller 'ListController', ($scope, $routeParams, List, FoodStuff, Tag, $rootScope, $location) ->
+@app.controller 'ListController', ($scope, $routeParams, List, FoodStuff, Tag, Shop, $rootScope, $location) ->
   root = $scope
   root.isData = false
 

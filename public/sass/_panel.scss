@@ -39,6 +39,11 @@
       @include make-md-column(4);
       min-height: 200px;
     }
+
+    @media (min-width: $screen-sm-min) {
+      &.pos-left { border-right: 0px; }
+      &.pos-right { border-left: 0px; }
+    }
   }
 
   &.panel-heading {
