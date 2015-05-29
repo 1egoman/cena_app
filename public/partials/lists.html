@@ -243,7 +243,7 @@
               }}"
               ng-repeat="s in getShops()"
               ng-click="addRemoveShop(l, cnt, s.name)">
-              {{s.name.replace("shop-", '')}}
+              {{s.pretty || s.name.replace("shop-", '')}}
             </button>
 
             <!-- no store -->
