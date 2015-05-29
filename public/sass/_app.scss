@@ -222,6 +222,14 @@ ul.list-group .list-group-item {
   }
 }
 
+// edit description button for foodstuffs
+.update-description-edit-button {
+  position: absolute;
+  top: 45px;
+  right: 8px;
+  cursor: pointer;
+}
+
 // foodstuff item deals
 .item-deals {
   display: inline-block;
