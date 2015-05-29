@@ -23,18 +23,26 @@
       @include make-xs-column(12);
       @include make-sm-column(12);
       @include make-md-column(8);
+      min-height: 500px;
     }
 
     &.size-md {
       @include make-xs-column(12);
       @include make-sm-column(12);
       @include make-md-column(6);
+      min-height: 300px;
     }
 
     &.size-sm {
       @include make-xs-column(6);
       @include make-sm-column(6);
       @include make-md-column(4);
+      min-height: 200px;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      &.pos-left { border-right: 0px; }
+      &.pos-right { border-left: 0px; }
     }
   }
 
