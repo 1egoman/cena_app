@@ -77,15 +77,24 @@
       </div>
 
       <!-- list of shops -->
-      <ul class="list-group">
+      <ul class="list-group shop">
         <li
           ng-repeat="shop in displayShops"
           ng-click="selectShop(shop, !shop.enabled, add, remove)"
           class="cursor-pointer list-group-item"
         >
+          <!-- selection checkbox -->
           <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
           <span ng-hide="shop.enabled" class="text-danger">x</span>
-          {{shop.name}}
+
+          <!-- shop logo -->
+          <img src="{{shop.img}}" class="shop-img-logo" />
+
+          <!-- shop name -->
+          <span class="name">{{shop.name}}</span>
+
+          <!-- shop desc -->
+          <span class="desc">{{shop.desc}}</span>
         </li>
       </ul>
 
