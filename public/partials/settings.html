@@ -64,9 +64,19 @@
     <div class="panel" ng-controller="ShopsController">
       <div class="panel-heading">Shops</div>
       <div class="panel-body">
+
+        <!-- search box -->
+        <input
+          type="text"
+          placeholder="Search Shops"
+          ng-model="shopSearchNeedle"
+          ng-change="applySearchNeedle(shopSearchNeedle)"
+         />
+
+        <!-- list of shops -->
         <ul>
           <li
-            ng-repeat="shop in shops"
+            ng-repeat="shop in displayShops"
             ng-click="selectShop(shop, !shop.enabled, add, remove)"
             class="cursor-pointer"
           >
