@@ -12,17 +12,20 @@
   root.get()
 
   # add a new tag
-  root.add = (name, color) ->
-    tag = new Tag
-      name: name
-      color: color
+  root.add = (t) ->
+    tag = new Tag t
 
     tag.$save (err) ->
-      root.tags.push
-        name: name
-        color: color
+      # inherit $ methods ($delete, $save, etc)
+      t.__proto__ = tag.__proto__
+      root.tags.push t
 
   # remove a tag
   root.remove = (t) ->
-    Tag.remove t, (err) ->
-      root.tags = _.without.apply(_, [root.tags].concat _.where(root.tags, t))
+    # delete all tags from database
+    _.filter root.tags, (tag) ->
+      if tag.name is t.name
+        tag.$delete()
+
+    # delete tags locally
+    root.tags = _.without.apply(_, [root.tags].concat _.where(root.tags, t))

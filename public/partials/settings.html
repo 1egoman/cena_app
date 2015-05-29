@@ -4,7 +4,7 @@
   <section class="tag-stuff" ng-controller="TagsController">
 
     <!-- tag viewer -->
-    <div class="panel sized size-md">
+    <div class="panel sized size-md pos pos-left">
       <div class="panel-heading">Tags</div>
       <div class="panel-body">
 
@@ -13,7 +13,7 @@
           <ul>
             <li class="tag {{t.name.split(' ').join('-')}}" ng-repeat="t in tags">
               <button style="background: {{t.color}}">
-                {{t.name}}
+                {{t.pretty || t.name}}
                 <span
                   class="x"
                   ng-click="remove(t)"
@@ -48,7 +48,7 @@
             <option value="#4ac3af">teal</option>
             <option value="#B88346">brown</option>
           </select>
-          <button class="btn btn-primary" ng-click="add(tagName, tagColor); tagName=''">Add</button>
+          <button class="btn btn-primary" ng-click="add({name: tagName, color: tagColor}); tagName=''">Add</button>
 
           <small class="muted">
             <br/><br/>
@@ -61,21 +61,43 @@
     </div>
 
     <!-- shop viewer, which lets you add shop tags -->
-    <div class="panel" ng-controller="ShopsController">
+    <div class="panel sized size-md pos pos-right" ng-controller="ShopsController">
       <div class="panel-heading">Shops</div>
       <div class="panel-body">
-        <ul>
-          <li
-            ng-repeat="shop in shops"
-            ng-click="selectShop(shop, !shop.enabled, add, remove)"
-            class="cursor-pointer"
-          >
-            <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
-            <span ng-hide="shop.enabled" class="text-danger">x</span>
-            {{shop.name}}
-          </li>
-        </ul>
+
+        <!-- search box -->
+        <input
+          type="text"
+          class="line-box blue-focus"
+          placeholder="Search Shops"
+          ng-model="shopSearchNeedle"
+          ng-change="applySearchNeedle(shopSearchNeedle)"
+         />
+
       </div>
+
+      <!-- list of shops -->
+      <ul class="list-group shop">
+        <li
+          ng-repeat="shop in displayShops"
+          ng-click="selectShop(shop, !shop.enabled, add, remove)"
+          class="cursor-pointer list-group-item"
+        >
+          <!-- selection checkbox -->
+          <span ng-show="shop.enabled" class="text-success">&#x2713;</span>
+          <span ng-hide="shop.enabled" class="text-danger">x</span>
+
+          <!-- shop logo -->
+          <img src="{{shop.img}}" class="shop-img-logo" />
+
+          <!-- shop name -->
+          <span class="name">{{shop.name}}</span>
+
+          <!-- shop desc -->
+          <span class="desc">{{shop.desc}}</span>
+        </li>
+      </ul>
+
     </div>
 
   </section>

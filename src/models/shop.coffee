@@ -15,7 +15,9 @@ shop = mongoose.Schema
     name: String
     color: String
 
-  
+  img: String
+
+
 
 # export the module
 module.exports = mongoose.model 'Shop', shop

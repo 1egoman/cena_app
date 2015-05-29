@@ -23,13 +23,15 @@ module.exports = (app) ->
           tags:
             # update user with new tag
             name: req.params.name or req.body.name,
+            pretty: req.body.pretty
+            
             color: do ->
               if req.body.color
                 req.body.color
               else
                 # generate random color to match with this item
                 color = _.random 0, Math.pow(256, 3)
-                color.toString 16
+                color = "##{color.toString 16}"
 
       , {}, (err, num, raw) ->
         if err

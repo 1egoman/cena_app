@@ -104,18 +104,31 @@
 
     <!-- description: rendered in markdown -->
     <div class="panel-body no-pad row" ng-show="l.tags.indexOf('grocery') === -1">
+
+      <!-- show or hide description editor -->
+      <span
+        class="glyphicon glyphicon-ok text-success update-description-edit-button"
+        ng-click="l.showDesc=!l.showDesc"
+        ng-show="l.users.indexOf(username) !== -1 && l.showDesc">
+      </span>
+      <span
+        class="glyphicon glyphicon-edit update-description-edit-button"
+        ng-click="l.showDesc=!l.showDesc"
+        ng-show="l.users.indexOf(username) !== -1 && !l.showDesc">
+      </span>
+
       <!-- edit -->
       <textarea
         placeholder="Recipe Description (Supports Markdown)"
         class="line-box blue-focus"
         ng-model="l.desc"
         ng-change="update(l)"
-        ng-hide="l.users.indexOf(username) === -1"
+        ng-hide="l.users.indexOf(username) === -1 || !l.showDesc"
       ></textarea>
 
       <!-- render -->
-      <div class="container" ng-show="l.users.indexOf(username) === -1">
-        <p marked="l.desc"></p>
+      <div class="container" ng-show="l.users.indexOf(username) === -1 || !l.showDesc">
+        <p marked="l.desc" style="padding-top: 16px;"></p>
       </div>
     </div>
 

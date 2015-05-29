@@ -20,19 +20,19 @@ module.exports = (grunt) ->
 
     clean:
       dist:
-        files:
+        files: [
           dot: true
           src: [
             '<%= config.dist %>/*'
             '<%= config.distTest %>/*'
             '!<%= config.dist %>/.git*'
           ]
+        ]
       css:
-        files:
+        files: [
           dot: true
           src: [ 'public/sass/index.css' ]
-
-
+        ]
 
     coffee:
       dist: files: [ {

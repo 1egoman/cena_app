@@ -222,6 +222,14 @@ ul.list-group .list-group-item {
   }
 }
 
+// edit description button for foodstuffs
+.update-description-edit-button {
+  position: absolute;
+  top: 45px;
+  right: 8px;
+  cursor: pointer;
+}
+
 // foodstuff item deals
 .item-deals {
   display: inline-block;
@@ -232,6 +240,34 @@ ul.list-group .list-group-item {
     content: '$';
   }
   .deal-name {}
+}
+
+// shop styling in shop settings list
+// (the "Shops" heading within the settings page)
+.shop {
+  .name {
+    font-weight: bold;
+    font-size: $font-size-base * 1.2;
+    margin-left: 4px;
+  }
+
+  .desc::before {
+    content: " - ";
+  }
+
+  .shop-img-logo {
+    height: 64px;
+    vertical-align: text-top;
+    margin-top: -6px;
+  }
+
+  // checkbox / x @ left of each item
+  .text-success, .text-danger {
+    display: inline-block;
+    font-size: 32px;
+    width: 28px;
+    vertical-align: text-top;
+  }
 }
 
 // == special tags ==
