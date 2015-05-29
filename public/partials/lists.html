@@ -25,7 +25,7 @@
 
   <!-- display each list -->
   <div
-    class="list panel panel-default {{ 'list-' + l.tags.join(' list-') }}"
+    class="list panel sized panel-default {{ 'list-' + l.tags.join(' list-') }}"
     ng-repeat="l in DispLists"
     ng-show="matchesSearchString(l, listSearchString)"
   >
