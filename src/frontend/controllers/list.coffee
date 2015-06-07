@@ -141,7 +141,7 @@
       s.name is item
 
     # remove item from list
-    list.contents.splice list.contents.indexOf(listItem), 1
+    list.contents = _.without list.contents, _.find(list.contents, (i) -> i._id is listItem._id)
     List.update list, ->
 
       # regenerate printable lists
